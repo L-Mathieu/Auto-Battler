@@ -1,0 +1,14 @@
+# Visual Studio
+.vs/
+*.csproj.user
+*.suo
+
+# Godot
+.import/
+.export/
+.export_presets.cfg
+*.mono/
+
+# Build
+bin/
+obj/
