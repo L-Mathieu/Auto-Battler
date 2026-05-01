@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Auto_Battler.Core;
+
+
+Character hero = new (100, 10, 0, 40, 0);

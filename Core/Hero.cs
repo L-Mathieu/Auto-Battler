@@ -8,5 +8,6 @@ namespace Auto_Battler.Core
 {
     public class Hero
     {
+
     }
 }
