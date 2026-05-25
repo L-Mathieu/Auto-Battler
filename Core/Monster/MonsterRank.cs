@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auto_Battler.Core
+namespace Auto_Battler.Core.Monster
 {
-    public class Monster
+    internal class MonsterRank
     {
     }
 }

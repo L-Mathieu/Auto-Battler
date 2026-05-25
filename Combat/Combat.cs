@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Auto_Battler.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,16 @@ namespace Auto_Battler.Combat
 {
     public class Combat
     {
+        private List<Character> TeamA;
+        private List<Character> TeamB;
         public bool IsCombatActive = false;
 
-        public void Fight()
+        public Combat(List<Character> teamA, List<Character> teamB)
         {
-            while (IsCombatActive)
-            {
+            TeamA = teamA;
+            TeamB = teamB;
+            IsCombatActive = true;
 
-            }
-        }
-
-        public void Update()
-        {
 
         }
     }
