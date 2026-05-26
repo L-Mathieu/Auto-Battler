@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Auto_Battler.Effects;
+using Auto_Battler.Stats;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,42 +14,22 @@ namespace Auto_Battler.Core
         public double HP { get; private set; }
 
         public double BaseAttack  { get; private set; }
-        public double TemporaryAttackBonus { get; private set; }
-        public double AttackMultiplierBonus { get; private set; }
-        public double Attack
-        {
-            get
-            {
-                double totalBonus = AttackMultiplierBonus;
 
-                foreach (var effect in StatusEffects)
-                {
-                    if (effect is AttackBuffEffect attackBuff)
-                    {
-                        totalBonus += attackBuff.BonusPercent;
-                    }
-                }
-
-                return BaseAttack * (1 + totalBonus);
-            }
-        }
+        public double Attack =>
+            ApplyModifiers(BaseAttack, StatType.Attack);
 
         public double BaseDefence { get; private set; }
-        public double TemporaryDefenceBonus { get; private set; }
-        public double DefenceMultiplierBonus { get; private set; }
         public double Defence =>
-            Math.Max(0, BaseDefence * (1 + DefenceMultiplierBonus));
+            ApplyModifiers(BaseDefence, StatType.Defence);
 
         public double BaseSpeed { get; private set; }
-        public double TemporarySpeedBonus { get; private set; }
-        public double SpeedMultiplierBonus { get; private set; }
-        public double Speed => 
-            Math.Max(0, BaseSpeed * (1 + SpeedMultiplierBonus));
+        public double Speed =>
+            ApplyModifiers(BaseSpeed, StatType.Speed);
 
         public List<StatusEffect> StatusEffects { get; }
 
         /// <summary>
-        /// Voir chatgpt ce qu'il conseil pour status effects (chat Avis sur la classe Character) et adapter ca pour speed et def
+        /// demander explication sur ce qu'il vient de faire (voir Avis sur la classe Character)
         /// </summary>
 
         public bool IsAlive => HP > 0;
@@ -58,23 +40,17 @@ namespace Auto_Battler.Core
         public Character(
             double maxHp, 
             double baseAttack, 
-            double attackMultiplierBonus, 
             double baseDefence,
-            double defenceMultiplierBonus,
-            double baseSpeed, 
-            double speedMultiplierBonus)
+            double baseSpeed)
         {
             MaxHP = Math.Max(0, maxHp);
             HP = MaxHP;
 
             BaseAttack = Math.Max(0, baseAttack);
-            AttackMultiplierBonus = attackMultiplierBonus;
 
             BaseDefence = Math.Max(0, baseDefence);
-            DefenceMultiplierBonus = defenceMultiplierBonus;
 
             BaseSpeed = Math.Max(0, baseSpeed);
-            SpeedMultiplierBonus = speedMultiplierBonus;
 
             ActionProgress = 0;
         }
@@ -102,6 +78,36 @@ namespace Auto_Battler.Core
         public void ResetActionProgress()
         {
             ActionProgress = 0;
+        }
+
+        private IEnumerable<IStatModifier> GetAllModifiers()
+        {
+            foreach (var effect in StatusEffects)
+            {
+                foreach (var mod in effect.GetModifiers())
+                {
+                    yield return mod;
+                }
+            }
+        }
+
+        private double ApplyModifiers(double baseValue, StatType stat)
+        {
+            double flat = 0;
+            double multiplier = 1;
+
+            foreach (var mod in GetAllModifiers())
+            {
+                if (mod.Stat != stat)
+                    continue;
+
+                if (mod.ModifierType == ModifierType.Additive)
+                    flat += mod.Value;
+                else
+                    multiplier *= (1 + mod.Value);
+            }
+
+            return (baseValue + flat) * multiplier;
         }
     }
 }

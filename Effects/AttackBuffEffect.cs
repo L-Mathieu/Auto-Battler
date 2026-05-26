@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Auto_Battler.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auto_Battler.Core
+namespace Auto_Battler.Effects
 {
     public class AttackBuffEffect : StatusEffect
     {
