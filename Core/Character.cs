@@ -28,13 +28,12 @@ namespace Auto_Battler.Core
 
         public List<StatusEffect> StatusEffects { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-
         public bool IsAlive => HP > 0;
 
+        public Team? Team { get; private set; }
+
         public double ActionProgress { get; private set; }
+        public bool IsReady => ActionProgress >= 100;
 
 
         public Character(
@@ -55,9 +54,15 @@ namespace Auto_Battler.Core
             ActionProgress = 0;
         }
 
-        public double DealDamage()
+        internal void SetTeam(Team? team)
         {
-            return Attack;
+            Team = team;
+        }
+
+        public void ExecuteAttack(Character target)
+        {
+            double damage = Attack;
+            target.TakeDamage(damage);
         }
 
         public void TakeDamage(double damage)
