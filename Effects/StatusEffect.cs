@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Auto_Battler.Stats;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auto_Battler.Stats
+namespace Auto_Battler.Effects
 {
     public abstract class StatusEffect
     {

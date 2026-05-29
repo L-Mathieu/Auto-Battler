@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Auto_Battler.Core
 {
-    public class Character
+    public abstract class Character
     {
         public double MaxHP { get; private set; }
         public double HP { get; private set; }
@@ -29,7 +29,7 @@ namespace Auto_Battler.Core
         public List<StatusEffect> StatusEffects { get; }
 
         /// <summary>
-        /// demander explication sur ce qu'il vient de faire (voir Avis sur la classe Character)
+        /// 
         /// </summary>
 
         public bool IsAlive => HP > 0;

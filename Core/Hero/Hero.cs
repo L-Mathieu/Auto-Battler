@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace Auto_Battler.Core.Hero
 {
-    public class Hero
+    public class Hero : Character
     {
+        public int Level { get; private set; }
 
+        public Hero(
+            double hp,
+            double baseAttack,
+            double baseDefence,
+            double baseSpeed)
+            : base(hp, baseAttack, baseDefence, baseSpeed)
+        {
+            Level = 1;
+        }
     }
 }

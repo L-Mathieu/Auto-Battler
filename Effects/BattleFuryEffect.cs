@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auto_Battler.Combat.Skill
+namespace Auto_Battler.Effects
 {
     public class BattleFuryEffect : StatusEffect
     {
