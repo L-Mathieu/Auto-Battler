@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace Auto_Battler.Effects
 {
-    public class AttackBuffEffect : StatusEffect
-    {
-        private readonly double _bonusPercent;
+    //public class AttackBuffEffect : StatusEffect
+    //{
+    //    private readonly double _bonusPercent;
 
-        public AttackBuffEffect(double duration, double bonusPercent)
-        {
-            Duration = duration;
-            _bonusPercent = bonusPercent;
-        }
+    //    public AttackBuffEffect(double duration, double bonusPercent)
+    //    {
+    //        Duration = duration;
+    //        _bonusPercent = bonusPercent;
+    //    }
 
-        public override void Update(Character character, double deltaTime)
-        {
-            Duration -= deltaTime;
-        }
+    //    public override void Update(Character character, double deltaTime)
+    //    {
+    //        Duration -= deltaTime;
+    //    }
 
-        public double BonusPercent => _bonusPercent;
-    }
+    //    public double BonusPercent => _bonusPercent;
+    //}
 }

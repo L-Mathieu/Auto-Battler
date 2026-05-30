@@ -12,11 +12,17 @@ namespace Auto_Battler.Combat
         private readonly Team _teamA;
         private readonly Team _teamB;
         private readonly List<Character> _allCharacters;
-        private readonly List<Character> _readyCharacters = new();
+        public Team? WinningTeam { get; private set; }
 
-        public CombatSystem(List<Character> teamA, List<Character> teamB)
+        public CombatSystem(Team teamA, Team teamB)
         {
-            _allCharacters = teamA.Concat(teamB).ToList();
+            _teamA = teamA;
+            _teamB = teamB;
+
+            _allCharacters = _teamA.Members
+                .Concat(_teamB.Members)
+                .ToList();
+            //Attention si je modifie _teamA ou _teamB je ne modifie PAS _allCharacters
         }
 
         public void Update(double deltaTime)
@@ -27,11 +33,6 @@ namespace Auto_Battler.Combat
                     continue;
 
                 character.UpdateActionProgress(deltaTime);
-
-                if (character.IsReady && !_readyCharacters.Contains(character))
-                {
-                    _readyCharacters.Add(character);
-                }
             }
         }
 
@@ -45,6 +46,9 @@ namespace Auto_Battler.Combat
 
         public Character GetTarget(Character attacker)
         {
+            if (attacker.Team == null)
+                return null;
+
             Team enemyTeam = GetEnemyTeam(attacker.Team);
 
             return enemyTeam.Members
@@ -55,12 +59,36 @@ namespace Auto_Battler.Combat
 
         private Team GetEnemyTeam(Team team)
         {
-            return team == _teamA ? _teamB : _teamA;
+            if (team == _teamA)
+                return _teamB;
+
+            if (team == _teamB)
+                return _teamA;
+
+            throw new InvalidOperationException("Unknown team.");
+        }
+
+        public Team GetWinningTeam()
+        {
+            if (!IsCombatFinished())
+                throw new InvalidOperationException("Combat is not finished yet.");
+
+            bool teamAAlive = _teamA.Members.Any(c => c.IsAlive);
+
+            return teamAAlive ? _teamA : _teamB;
         }
 
         public void ConsumeTurn(Character character)
         {
             character.ResetActionProgress();
+        }
+
+        public bool IsCombatFinished()
+        {
+            bool teamAAlive = _teamA.Members.Any(c => c.IsAlive);
+            bool teamBAlive = _teamB.Members.Any(c => c.IsAlive);
+
+            return !teamAAlive || !teamBAlive;
         }
     }
 }

@@ -11,11 +11,12 @@ namespace Auto_Battler.Core.Hero
         public int Level { get; private set; }
 
         public Hero(
+            string name,
             double hp,
             double baseAttack,
             double baseDefence,
             double baseSpeed)
-            : base(hp, baseAttack, baseDefence, baseSpeed)
+            : base(name, hp, baseAttack, baseDefence, baseSpeed)
         {
             Level = 1;
         }

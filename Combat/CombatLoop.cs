@@ -11,10 +11,21 @@ namespace Auto_Battler.Combat
 {
     public class CombatLoop
     {
+        public bool IsFinished { get; private set; }
+
         private CombatSystem _combatSystem;
+
+        public CombatLoop(CombatSystem combatSystem)
+        {
+            _combatSystem = combatSystem;
+        }
 
         public void Update(double deltaTime)
         {
+            if (IsFinished)
+                Console.WriteLine("combat fini");
+                return;
+
             _combatSystem.Update(deltaTime);
 
             var actor = _combatSystem.GetReadyCharacter();
@@ -23,9 +34,18 @@ namespace Auto_Battler.Combat
                 return;
 
             var target = _combatSystem.GetTarget(actor);
+
+            if (target == null)
+            {
+                throw new InvalidOperationException(
+                    $"No valid target found for {actor.Name}");
+            }
+
             actor.ExecuteAttack(target);
 
             _combatSystem.ConsumeTurn(actor);
+
+            IsFinished = _combatSystem.IsCombatFinished();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Auto_Battler.Core
 {
     public abstract class Character
     {
+        public string Name { get; private set; }
         public double MaxHP { get; private set; }
         public double HP { get; private set; }
 
@@ -37,11 +38,14 @@ namespace Auto_Battler.Core
 
 
         public Character(
+            string name,
             double maxHp, 
             double baseAttack, 
             double baseDefence,
             double baseSpeed)
         {
+            Name = name;
+
             MaxHP = Math.Max(0, maxHp);
             HP = MaxHP;
 
@@ -62,12 +66,20 @@ namespace Auto_Battler.Core
         public void ExecuteAttack(Character target)
         {
             double damage = Attack;
-            target.TakeDamage(damage);
+            double finalDamage = target.TakeDamage(damage);
+
+            Console.WriteLine($"{Name} attaque {target.Name}");
         }
 
-        public void TakeDamage(double damage)
+        public double TakeDamage(double damage)
         {
-            HP = Math.Max(0, HP - damage);
+            double finalDamage = Math.Max(1, damage - Defence);
+
+            HP = Math.Max(0, HP - finalDamage);
+
+            Console.WriteLine($"{Name} subit {finalDamage} dégâts");
+
+            return finalDamage;
         }
 
         public void Heal(double amount)
