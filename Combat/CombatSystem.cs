@@ -11,38 +11,39 @@ namespace Auto_Battler.Combat
     {
         private readonly Team _teamA;
         private readonly Team _teamB;
-        private readonly List<Character> _allCharacters;
+    //    private IEnumerable<Character> AllCharacters =>
+    //_teamA.Members.Concat(_teamB.Members);
+
+        private readonly TargetingSystem _targetingSystem;
+        //private readonly Random _random = new Random();
+
         public Team? WinningTeam { get; private set; }
 
         public CombatSystem(Team teamA, Team teamB)
         {
             _teamA = teamA;
             _teamB = teamB;
-
-            _allCharacters = _teamA.Members
-                .Concat(_teamB.Members)
-                .ToList();
-            //Attention si je modifie _teamA ou _teamB je ne modifie PAS _allCharacters
+            _targetingSystem = new TargetingSystem();
         }
 
-        public void Update(double deltaTime)
-        {
-            foreach (var character in _allCharacters)
-            {
-                if (!character.IsAlive)
-                    continue;
+        //public void Update(double deltaTime)
+        //{
+        //    foreach (var character in AllCharacters)
+        //    {
+        //        if (!character.IsAlive)
+        //            continue;
 
-                character.UpdateActionProgress(deltaTime);
-            }
-        }
+        //        character.UpdateActionProgress(deltaTime);
+        //    }
+        //}
 
-        public Character GetReadyCharacter()
-        {
-            return _allCharacters
-                .Where(c => c.IsAlive && c.IsReady)
-                .OrderByDescending(c => c.ActionProgress) // optionnel
-                .FirstOrDefault();
-        }
+        //public Character GetReadyCharacter()
+        //{
+        //    return AllCharacters
+        //        .Where(c => c.IsAlive && c.IsReady)
+        //        .OrderByDescending(c => c.ActionProgress) // optionnel
+        //        .FirstOrDefault();
+        //}
 
         public Character GetTarget(Character attacker)
         {
@@ -51,10 +52,7 @@ namespace Auto_Battler.Combat
 
             Team enemyTeam = GetEnemyTeam(attacker.Team);
 
-            return enemyTeam.Members
-                .Where(c => c.IsAlive)
-                .OrderBy(_ => Guid.NewGuid())
-                .FirstOrDefault();
+            return _targetingSystem.GetRandomTarget(enemyTeam);
         }
 
         private Team GetEnemyTeam(Team team)
@@ -73,9 +71,9 @@ namespace Auto_Battler.Combat
             if (!IsCombatFinished())
                 throw new InvalidOperationException("Combat is not finished yet.");
 
-            bool teamAAlive = _teamA.Members.Any(c => c.IsAlive);
-
-            return teamAAlive ? _teamA : _teamB;
+            return _teamA.IsDefeated()
+                ? _teamB
+                : _teamA;
         }
 
         public void ConsumeTurn(Character character)

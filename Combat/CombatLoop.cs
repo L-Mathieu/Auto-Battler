@@ -5,7 +5,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using Auto_Battler.Combat;
 
 namespace Auto_Battler.Combat
 {
@@ -14,21 +13,30 @@ namespace Auto_Battler.Combat
         public bool IsFinished { get; private set; }
 
         private CombatSystem _combatSystem;
+        private TurnSystem _turnSystem;
 
-        public CombatLoop(CombatSystem combatSystem)
+        public CombatLoop(Team teamA, Team teamB)
         {
-            _combatSystem = combatSystem;
+            _combatSystem = new CombatSystem(teamA, teamB);
+
+            var allCharacters = teamA.Members.Concat(teamB.Members);
+            _turnSystem = new TurnSystem(allCharacters);
         }
 
         public void Update(double deltaTime)
         {
             if (IsFinished)
+            {
                 Console.WriteLine("combat fini");
                 return;
+            }
 
-            _combatSystem.Update(deltaTime);
 
-            var actor = _combatSystem.GetReadyCharacter();
+            //_combatSystem.Update(deltaTime);
+            _turnSystem.Update(deltaTime);
+
+            //var actor = _combatSystem.GetReadyCharacter();
+            var actor = _turnSystem.GetReadyCharacter();
 
             if (actor == null)
                 return;
@@ -43,7 +51,8 @@ namespace Auto_Battler.Combat
 
             actor.ExecuteAttack(target);
 
-            _combatSystem.ConsumeTurn(actor);
+            //_combatSystem.ConsumeTurn(actor);
+            _turnSystem.ConsumeTurn(actor);
 
             IsFinished = _combatSystem.IsCombatFinished();
         }

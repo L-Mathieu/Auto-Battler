@@ -27,7 +27,7 @@ namespace Auto_Battler.Core
         public double Speed =>
             ApplyModifiers(BaseSpeed, StatType.Speed);
 
-        public List<StatusEffect> StatusEffects { get; }
+        public List<StatusEffect> StatusEffects { get; } = new();
 
         public bool IsAlive => HP > 0;
 
@@ -66,9 +66,9 @@ namespace Auto_Battler.Core
         public void ExecuteAttack(Character target)
         {
             double damage = Attack;
+            Console.WriteLine($"{Name} attaque {target.Name}");
             double finalDamage = target.TakeDamage(damage);
 
-            Console.WriteLine($"{Name} attaque {target.Name}");
         }
 
         public double TakeDamage(double damage)

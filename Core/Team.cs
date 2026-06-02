@@ -37,5 +37,10 @@ namespace Auto_Battler.Core
 
             member.SetTeam(null);
         }
+
+        public bool IsDefeated()
+        {
+            return Members.All(c => !c.IsAlive);
+        }
     }
 }

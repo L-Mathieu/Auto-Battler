@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Combat\CombatSystem\" />
     <Folder Include="Effects\Skill\" />
   </ItemGroup>
 
