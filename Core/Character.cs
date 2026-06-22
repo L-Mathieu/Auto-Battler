@@ -78,8 +78,19 @@ namespace Auto_Battler.Core
             HP = Math.Max(0, HP - finalDamage);
 
             Console.WriteLine($"{Name} subit {finalDamage} dégâts");
+            Console.WriteLine($"{Name} HP : {HP} / {MaxHP}");
+            if (IsAlive)
+            {
+                Console.WriteLine($"{Name} vivant ? : {IsAlive}");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{Name} vivant ? : {IsAlive}");
+                Console.ResetColor();
+            }
 
-            return finalDamage;
+                return finalDamage;
         }
 
         public void Heal(double amount)

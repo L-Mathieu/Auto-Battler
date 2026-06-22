@@ -8,19 +8,22 @@ using Auto_Battler.Core.Monster;
 /// Verification de CombatLoop.Update() voir dernier message ChatGPT dans Test Auto Battler
 /// </summary>
 
-Hero hero = new ("Hero", 100, 10, 3, 40);
-Monster monster1 = new ("Monstre1", 50, 6, 5, 30);
-Monster monster2 = new ("Monstre2", 5, 5, 5, 30);
-Monster monster3 = new ("Monstre3", 5, 5, 5, 30);
-Team teamHeroes = new("Heroes");
-teamHeroes.AddMember(hero);
-Team teamMonsters = new("Monster");
-teamMonsters.AddMember(monster1);
-teamMonsters.AddMember(monster2);
-Team teamMonsters2 = new("Monster2");
-teamMonsters2.AddMember(monster3);
+//----------------------------------------------------------------------
+//Test 1
 
-CombatLoop combatLoop = new(teamHeroes, teamMonsters);
+//Hero hero = new ("Hero", 100, 10, 3, 40);
+//Monster monster1 = new ("Monstre1", 50, 6, 5, 30);
+//Monster monster2 = new ("Monstre2", 5, 5, 5, 30);
+//Monster monster3 = new ("Monstre3", 5, 5, 5, 30);
+//Team teamHeroes = new("Heroes");
+//teamHeroes.AddMember(hero);
+//Team teamMonsters = new("Monster");
+//teamMonsters.AddMember(monster1);
+//teamMonsters.AddMember(monster2);
+//Team teamMonsters2 = new("Monster2");
+//teamMonsters2.AddMember(monster3);
+
+//CombatLoop combatLoop = new(teamHeroes, teamMonsters);
 
 
 //Console.WriteLine("Hero Stat");
@@ -61,3 +64,32 @@ CombatLoop combatLoop = new(teamHeroes, teamMonsters);
 //Console.WriteLine($"{monster3.HP}/{monster3.MaxHP} HP");
 //Console.WriteLine($"Monstre vivant ? {monster3.IsAlive}");
 //Console.WriteLine($"Encore des membre vivant ? {teamMonsters2.IsDefeated()}");
+
+//----------------------------------------------------------------------
+
+//----------------------------------------------------------------------
+//Test 2
+
+Hero hero = new("Hero", 100, 10, 3, 40);
+
+Monster monster1 = new("Monstre1", 50, 6, 5, 30);
+Monster monster2 = new("Monstre2", 50, 6, 5, 30);
+
+Team teamHeroes = new("Heroes");
+teamHeroes.AddMember(hero);
+
+Team teamMonsters = new("Monsters");
+teamMonsters.AddMember(monster1);
+teamMonsters.AddMember(monster2);
+
+CombatLoop combatLoop = new(teamHeroes, teamMonsters);
+
+while (!combatLoop.IsFinished)
+{
+    combatLoop.Update(0.1);
+}
+
+Console.WriteLine("Combat terminé");
+
+var winner = combatLoop.GetWinningTeam();
+Console.WriteLine($"Vainqueur : {winner.Name}");

@@ -12,8 +12,6 @@ namespace Auto_Battler.Combat
         private readonly Team _teamA;
         private readonly Team _teamB;
         private readonly IEnumerable<Character> _characters;
-        private IEnumerable<Character> AllCharacters =>
-_teamA.Members.Concat(_teamB.Members);
 
         public TurnSystem(IEnumerable<Character> characters)
         {

@@ -32,10 +32,8 @@ namespace Auto_Battler.Combat
             }
 
 
-            //_combatSystem.Update(deltaTime);
             _turnSystem.Update(deltaTime);
 
-            //var actor = _combatSystem.GetReadyCharacter();
             var actor = _turnSystem.GetReadyCharacter();
 
             if (actor == null)
@@ -51,7 +49,6 @@ namespace Auto_Battler.Combat
 
             actor.ExecuteAttack(target);
 
-            //_combatSystem.ConsumeTurn(actor);
             _turnSystem.ConsumeTurn(actor);
 
             IsFinished = _combatSystem.IsCombatFinished();
