@@ -4,8 +4,7 @@ using Auto_Battler.Core.Hero;
 using Auto_Battler.Core.Monster;
 
 /// <summary>
-/// Faire log propre voir dernier prompt chatgpt dans Avis sur la classe Character
-/// Verification de CombatLoop.Update() voir dernier message ChatGPT dans Test Auto Battler
+/// Continuer le log voir dernier message chatgpt sujet Test Auto Battler
 /// </summary>
 
 //----------------------------------------------------------------------
@@ -93,3 +92,5 @@ Console.WriteLine("Combat terminé");
 
 var winner = combatLoop.GetWinningTeam();
 Console.WriteLine($"Vainqueur : {winner.Name}");
+
+//----------------------------------------------------------------------

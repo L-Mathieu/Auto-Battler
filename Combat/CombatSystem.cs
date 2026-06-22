@@ -11,11 +11,8 @@ namespace Auto_Battler.Combat
     {
         private readonly Team _teamA;
         private readonly Team _teamB;
-    //    private IEnumerable<Character> AllCharacters =>
-    //_teamA.Members.Concat(_teamB.Members);
 
         private readonly TargetingSystem _targetingSystem;
-        //private readonly Random _random = new Random();
 
         public Team? WinningTeam { get; private set; }
 
@@ -25,25 +22,6 @@ namespace Auto_Battler.Combat
             _teamB = teamB;
             _targetingSystem = new TargetingSystem();
         }
-
-        //public void Update(double deltaTime)
-        //{
-        //    foreach (var character in AllCharacters)
-        //    {
-        //        if (!character.IsAlive)
-        //            continue;
-
-        //        character.UpdateActionProgress(deltaTime);
-        //    }
-        //}
-
-        //public Character GetReadyCharacter()
-        //{
-        //    return AllCharacters
-        //        .Where(c => c.IsAlive && c.IsReady)
-        //        .OrderByDescending(c => c.ActionProgress) // optionnel
-        //        .FirstOrDefault();
-        //}
 
         public Character GetTarget(Character attacker)
         {

@@ -1,4 +1,5 @@
 ﻿using Auto_Battler.Effects;
+using Auto_Battler.Log.CombatLog;
 using Auto_Battler.Stats;
 using System;
 using System.Collections.Generic;
@@ -63,12 +64,10 @@ namespace Auto_Battler.Core
             Team = team;
         }
 
-        public void ExecuteAttack(Character target)
+        public double ExecuteAttack(Character target)
         {
             double damage = Attack;
-            Console.WriteLine($"{Name} attaque {target.Name}");
-            double finalDamage = target.TakeDamage(damage);
-
+            return target.TakeDamage(damage);
         }
 
         public double TakeDamage(double damage)
@@ -90,7 +89,7 @@ namespace Auto_Battler.Core
                 Console.ResetColor();
             }
 
-                return finalDamage;
+            return finalDamage;
         }
 
         public void Heal(double amount)
