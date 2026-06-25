@@ -54,11 +54,6 @@ namespace Auto_Battler.Combat
                 : _teamA;
         }
 
-        public void ConsumeTurn(Character character)
-        {
-            character.ResetActionProgress();
-        }
-
         public bool IsCombatFinished()
         {
             bool teamAAlive = _teamA.Members.Any(c => c.IsAlive);

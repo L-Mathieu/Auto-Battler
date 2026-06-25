@@ -2,9 +2,20 @@
 using Auto_Battler.Core;
 using Auto_Battler.Core.Hero;
 using Auto_Battler.Core.Monster;
+using Auto_Battler.Log.CombatLog;
 
 /// <summary>
 /// Continuer le log voir dernier message chatgpt sujet Test Auto Battler
+/// </summary>
+/// 
+/// <summary>
+/// 
+/// Character gère les personnages ;
+/// TurnSystem gère les tours ;
+/// CombatSystem gère les règles du combat ;
+/// CombatLoop orchestre;
+/// CombatLog conserve l'historique.
+/// 
 /// </summary>
 
 //----------------------------------------------------------------------
@@ -91,20 +102,6 @@ while (!combatLoop.IsFinished)
 foreach (var entry in combatLoop.FightLog.Entries)
 {
     Console.WriteLine(entry);
-
-    if (entry.DefenderIsAlive)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"Defenseur vivant ? : {entry.DefenderIsAlive}");
-        Console.ResetColor();
-    }
-    else
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Defenseur vivant ? : {entry.DefenderIsAlive}");
-        Console.ResetColor();
-    }
-
 }
 
 Console.WriteLine("Combat terminé");

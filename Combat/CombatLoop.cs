@@ -51,6 +51,8 @@ namespace Auto_Battler.Combat
                     $"No valid target found for {actor.Name}");
             }
 
+            double targetHpBeforeAttack = target.HP;
+
             double damage = actor.ExecuteAttack(target);
 
             var combatEvent = new CombatEvent
@@ -58,6 +60,7 @@ namespace Auto_Battler.Combat
                 AttackerName = actor.Name,
                 DefenderName = target.Name,
                 Damage = damage,
+                DefenderHpBeforeAttack = targetHpBeforeAttack,
                 DefenderHpAfterAttack = target.HP,
                 DefenderIsAlive = target.IsAlive
             };
