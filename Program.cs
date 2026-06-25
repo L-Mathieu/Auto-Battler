@@ -88,6 +88,25 @@ while (!combatLoop.IsFinished)
     combatLoop.Update(0.1);
 }
 
+foreach (var entry in combatLoop.FightLog.Entries)
+{
+    Console.WriteLine(entry);
+
+    if (entry.DefenderIsAlive)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"Defenseur vivant ? : {entry.DefenderIsAlive}");
+        Console.ResetColor();
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Defenseur vivant ? : {entry.DefenderIsAlive}");
+        Console.ResetColor();
+    }
+
+}
+
 Console.WriteLine("Combat terminé");
 
 var winner = combatLoop.GetWinningTeam();

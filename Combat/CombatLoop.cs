@@ -16,6 +16,7 @@ namespace Auto_Battler.Combat
 
         private CombatSystem _combatSystem;
         private TurnSystem _turnSystem;
+        public CombatLog FightLog { get; }
 
         public CombatLoop(Team teamA, Team teamB)
         {
@@ -23,6 +24,8 @@ namespace Auto_Battler.Combat
 
             var allCharacters = teamA.Members.Concat(teamB.Members);
             _turnSystem = new TurnSystem(allCharacters);
+
+            FightLog = new CombatLog();
         }
 
         public void Update(double deltaTime)
@@ -58,7 +61,7 @@ namespace Auto_Battler.Combat
                 DefenderHpAfterAttack = target.HP,
                 DefenderIsAlive = target.IsAlive
             };
-            Affiche(combatEvent);
+            FightLog.Add(combatEvent);
 
             _turnSystem.ConsumeTurn(actor);
 
@@ -68,17 +71,6 @@ namespace Auto_Battler.Combat
         public Team GetWinningTeam()
         {
             return _combatSystem.GetWinningTeam();
-        }
-
-        public void Affiche(CombatEvent combatEventLog)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Attaquant : {combatEventLog.AttackerName}");
-            Console.WriteLine($"Defenseur : {combatEventLog.DefenderName}");
-            Console.WriteLine($"Damage : {combatEventLog.Damage}");
-            Console.WriteLine($"DefenseurHp : {combatEventLog.DefenderHpAfterAttack}");
-            Console.WriteLine($"Defenseur vivant ? : {combatEventLog.DefenderIsAlive}");
-            Console.ResetColor();
         }
     }
 }

@@ -13,5 +13,10 @@ namespace Auto_Battler.Log.CombatLog
         public double Damage { get; set; }
         public double DefenderHpAfterAttack { get; set; }
         public bool DefenderIsAlive { get; set; }
+
+        public override string ToString()
+        {
+            return $"{AttackerName} attaque {DefenderName} et inflige {Damage} dégâts.";
+        }
     }
 }
