@@ -10,6 +10,7 @@ namespace Auto_Battler.Log.CombatLog
     {
         public string AttackerName { get; set; }
         public string DefenderName { get; set; }
+        public string SkillName { get; set; }
         public double Damage { get; set; }
 
         public double DefenderHpBeforeAttack { get; set; }
@@ -21,7 +22,7 @@ namespace Auto_Battler.Log.CombatLog
         {
             string status = DefenderIsAlive ? "vivant" : "mort";
 
-            return $"{AttackerName} attaque {DefenderName} et inflige {Damage} dégâts. " +
+            return $"{AttackerName} utilise {SkillName} sur {DefenderName} et inflige {Damage} dégâts. " +
                    $"PV : {DefenderHpBeforeAttack} -> {DefenderHpAfterAttack}. " +
                    $"Statut : {status}";
         }

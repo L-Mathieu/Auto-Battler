@@ -43,6 +43,14 @@ namespace Auto_Battler.Combat
             if (actor == null)
                 return;
 
+            var skill = actor.SelectSkill();
+
+            if (skill == null)
+            {
+                throw new InvalidOperationException(
+                    $"No valid skill found for {actor.Name}");
+            }
+
             var target = _combatSystem.GetTarget(actor);
 
             if (target == null)
@@ -53,12 +61,14 @@ namespace Auto_Battler.Combat
 
             double targetHpBeforeAttack = target.HP;
 
-            double damage = actor.ExecuteAttack(target);
+            double damage = skill.Execute(actor, target);
+            //double damage = actor.ExecuteAttack(target);
 
             var combatEvent = new CombatEvent
             {
                 AttackerName = actor.Name,
                 DefenderName = target.Name,
+                SkillName = skill.Name,
                 Damage = damage,
                 DefenderHpBeforeAttack = targetHpBeforeAttack,
                 DefenderHpAfterAttack = target.HP,

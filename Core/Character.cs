@@ -1,6 +1,7 @@
 ﻿using Auto_Battler.Effects;
 using Auto_Battler.Log.CombatLog;
 using Auto_Battler.Stats;
+using Auto_Battler.Skills;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace Auto_Battler.Core
             ApplyModifiers(BaseSpeed, StatType.Speed);
 
         public List<StatusEffect> StatusEffects { get; } = new();
+        public List<Skill> Skills { get; } = new();
 
         public bool IsAlive => HP > 0;
 
@@ -62,12 +64,6 @@ namespace Auto_Battler.Core
         internal void SetTeam(Team? team)
         {
             Team = team;
-        }
-
-        public double ExecuteAttack(Character target)
-        {
-            double damage = Attack;
-            return target.TakeDamage(damage);
         }
 
         public double TakeDamage(double damage)
@@ -122,6 +118,24 @@ namespace Auto_Battler.Core
             }
 
             return (baseValue + flat) * multiplier;
+        }
+
+        public void AddSkill(Skill skill)
+        {
+            Skills.Add(skill);
+        }
+
+        public Skill SelectSkill()
+        {
+            if (Skills.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    $"{Name} has no skills.");
+            }
+
+            Random _random = new Random();
+
+            return Skills[Random.Shared.Next(Skills.Count)];
         }
     }
 }

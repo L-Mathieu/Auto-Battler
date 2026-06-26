@@ -3,9 +3,10 @@ using Auto_Battler.Core;
 using Auto_Battler.Core.Hero;
 using Auto_Battler.Core.Monster;
 using Auto_Battler.Log.CombatLog;
+using Auto_Battler.Skills;
 
 /// <summary>
-/// Continuer le log voir dernier message chatgpt sujet Test Auto Battler
+/// Continuer les skills voir dernier message de chatgpt
 /// </summary>
 /// 
 /// <summary>
@@ -91,6 +92,16 @@ teamHeroes.AddMember(hero);
 Team teamMonsters = new("Monsters");
 teamMonsters.AddMember(monster1);
 teamMonsters.AddMember(monster2);
+
+BasicAttack basicAttack = new();
+hero.AddSkill(basicAttack);
+monster1.AddSkill(basicAttack);
+monster2.AddSkill(basicAttack);
+
+foreach (var item in hero.Skills)
+{
+    Console.WriteLine(item.Name);
+}
 
 CombatLoop combatLoop = new(teamHeroes, teamMonsters);
 
