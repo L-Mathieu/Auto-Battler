@@ -94,9 +94,13 @@ teamMonsters.AddMember(monster1);
 teamMonsters.AddMember(monster2);
 
 BasicAttack basicAttack = new();
+PowerStrike powerStrike = new();
 hero.AddSkill(basicAttack);
+hero.AddSkill(powerStrike);
 monster1.AddSkill(basicAttack);
+monster1.AddSkill(powerStrike);
 monster2.AddSkill(basicAttack);
+monster2.AddSkill(powerStrike);
 
 foreach (var item in hero.Skills)
 {
