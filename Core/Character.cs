@@ -133,8 +133,6 @@ namespace Auto_Battler.Core
                     $"{Name} has no skills.");
             }
 
-            Random _random = new Random();
-
             return Skills[Random.Shared.Next(Skills.Count)];
         }
     }

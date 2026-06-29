@@ -9,7 +9,7 @@ namespace Auto_Battler.Skills
 {
     public class BasicAttack : Skill
     {
-        public BasicAttack() : base("Basic Attack")
+        public BasicAttack() : base("Basic Attack", "Une simple attaque", TargetType.Enemy)
         {
         }
 

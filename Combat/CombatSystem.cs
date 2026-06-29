@@ -1,7 +1,9 @@
 ﻿using Auto_Battler.Core;
+using Auto_Battler.Skills;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,14 +25,34 @@ namespace Auto_Battler.Combat
             _targetingSystem = new TargetingSystem();
         }
 
-        public Character GetTarget(Character attacker)
+        public Character GetTarget(Character actor, TargetType targetType)
         {
-            if (attacker.Team == null)
+            if (actor.Team == null)
                 return null;
 
-            Team enemyTeam = GetEnemyTeam(attacker.Team);
+            Team team = actor.Team;
 
-            return _targetingSystem.GetRandomTarget(enemyTeam);
+            switch (targetType)
+            {
+                case TargetType.Enemy:
+                    team = GetEnemyTeam(actor.Team);
+                    break;
+                case TargetType.Ally:
+                    team = actor.Team;
+                    break;
+                case TargetType.Self:
+                    return actor;
+            }
+
+            var target = _targetingSystem.GetRandomTarget(team);
+
+            if (target == null)
+            {
+                throw new InvalidOperationException(
+                    $"No valid target found in team {team.Name}");
+            }
+
+            return target;
         }
 
         private Team GetEnemyTeam(Team team)
