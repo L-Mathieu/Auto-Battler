@@ -6,7 +6,7 @@ using Auto_Battler.Log.CombatLog;
 using Auto_Battler.Skills;
 
 /// <summary>
-/// Continuer les skills voir dernier message de chatgpt
+/// Gestion des priorité de skill? voir dernier message de chatgpt
 /// </summary>
 /// 
 /// <summary>

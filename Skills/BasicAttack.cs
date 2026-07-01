@@ -9,8 +9,13 @@ namespace Auto_Battler.Skills
 {
     public class BasicAttack : Skill
     {
-        public BasicAttack() : base("Basic Attack", "Une simple attaque", TargetType.Enemy)
+        public BasicAttack() : base("Basic Attack", "Une simple attaque", TargetType.Enemy, 0)
         {
+        }
+
+        public override bool CanExecute(Character caster)
+        {
+            return true;
         }
 
         public override double Execute(Character caster, Character target)

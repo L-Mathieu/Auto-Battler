@@ -31,6 +31,7 @@ namespace Auto_Battler.Core
 
         public List<StatusEffect> StatusEffects { get; } = new();
         public List<Skill> Skills { get; } = new();
+        public Dictionary<Skill, int> SkillCooldowns { get; } = new();
 
         public bool IsAlive => HP > 0;
 
@@ -122,18 +123,38 @@ namespace Auto_Battler.Core
 
         public void AddSkill(Skill skill)
         {
+            SkillCooldowns.Add(skill, 0);
             Skills.Add(skill);
         }
 
         public Skill SelectSkill()
         {
-            if (Skills.Count == 0)
+            var usableSkills = Skills
+                .Where(s => s.CanExecute(this))
+                .ToList();
+
+            if (usableSkills.Count == 0)
             {
-                throw new InvalidOperationException(
-                    $"{Name} has no skills.");
+                throw new InvalidOperationException($"{Name} has no usable skills.");
             }
 
-            return Skills[Random.Shared.Next(Skills.Count)];
+            return usableSkills[Random.Shared.Next(usableSkills.Count)];
+        }
+
+        public void StartCooldown(Skill skill)
+        {
+            SkillCooldowns[skill] = skill.Cooldown;
+        }
+
+        public void ReduceCooldown()
+        {
+            foreach (var skill in SkillCooldowns.Keys.ToList())
+            {
+                if (SkillCooldowns[skill] > 0)
+                {
+                    SkillCooldowns[skill]--;
+                }
+            }
         }
     }
 }

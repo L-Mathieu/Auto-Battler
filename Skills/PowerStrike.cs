@@ -9,7 +9,7 @@ namespace Auto_Battler.Skills
 {
     public class PowerStrike : Skill
     {
-        public PowerStrike() : base("Power Strike", "Une attaque puissante", TargetType.Enemy)
+        public PowerStrike() : base("Power Strike", "Une attaque puissante", TargetType.Enemy, 2)
         {
         }
 

@@ -51,6 +51,8 @@ namespace Auto_Battler.Combat
 
             double damage = skill.Execute(actor, target);
 
+            actor.StartCooldown(skill);
+
             var combatEvent = new CombatEvent
             {
                 AttackerName = actor.Name,

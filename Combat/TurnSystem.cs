@@ -38,6 +38,7 @@ namespace Auto_Battler.Combat
         }
         public void ConsumeTurn(Character character)
         {
+            character.ReduceCooldown();
             character.ResetActionProgress();
         }
 
