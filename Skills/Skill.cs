@@ -13,13 +13,15 @@ namespace Auto_Battler.Skills
         public string Description { get; }
         public TargetType TargetType { get; }
         public int Cooldown { get; }
+        public int Priority { get; }
 
-        protected Skill(string name, string description, TargetType targetType, int cooldown)
+        protected Skill(string name, string description, TargetType targetType, int cooldown, int priority)
         {
             Name = name;
             Description = description;
             TargetType = targetType;
             Cooldown = cooldown;
+            Priority = priority;
         }
 
         public virtual bool CanExecute(Character caster)

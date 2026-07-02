@@ -128,7 +128,7 @@ namespace Auto_Battler.Core
         }
 
         public Skill SelectSkill()
-        {
+        {                        
             var usableSkills = Skills
                 .Where(s => s.CanExecute(this))
                 .ToList();
@@ -138,7 +138,13 @@ namespace Auto_Battler.Core
                 throw new InvalidOperationException($"{Name} has no usable skills.");
             }
 
-            return usableSkills[Random.Shared.Next(usableSkills.Count)];
+            int highestPriority = usableSkills.Max(x => x.Priority);
+
+            var usableSkillsWithPriority = usableSkills
+                .Where(s =>  s.Priority == highestPriority)
+                .ToList();
+
+            return usableSkillsWithPriority[Random.Shared.Next(usableSkillsWithPriority.Count)];
         }
 
         public void StartCooldown(Skill skill)
