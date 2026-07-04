@@ -6,7 +6,15 @@ using Auto_Battler.Log.CombatLog;
 using Auto_Battler.Skills;
 
 /// <summary>
-/// Gestion des priorité de skill? voir dernier message de chatgpt
+/// continuer de suivre ce plan
+//✅ BasicAttack
+//✅ PowerStrike
+//✅ Heal (même très simple)
+//✅ Modifier le ciblage pour permettre TargetType.Ally
+//✅ Constater que Heal est utilisé n'importe quand
+//Remplacer Priority par GetPriority()
+//Ajouter une vraie logique d'IA
+/// Modifier le ciblage pour permettre TargetType.Ally voir dernier message de chatgpt dans sujet Systeme de compétence auto battler
 /// </summary>
 /// 
 /// <summary>
@@ -20,66 +28,7 @@ using Auto_Battler.Skills;
 /// </summary>
 
 //----------------------------------------------------------------------
-//Test 1
-
-//Hero hero = new ("Hero", 100, 10, 3, 40);
-//Monster monster1 = new ("Monstre1", 50, 6, 5, 30);
-//Monster monster2 = new ("Monstre2", 5, 5, 5, 30);
-//Monster monster3 = new ("Monstre3", 5, 5, 5, 30);
-//Team teamHeroes = new("Heroes");
-//teamHeroes.AddMember(hero);
-//Team teamMonsters = new("Monster");
-//teamMonsters.AddMember(monster1);
-//teamMonsters.AddMember(monster2);
-//Team teamMonsters2 = new("Monster2");
-//teamMonsters2.AddMember(monster3);
-
-//CombatLoop combatLoop = new(teamHeroes, teamMonsters);
-
-
-//Console.WriteLine("Hero Stat");
-//Console.WriteLine(hero.Name);
-//Console.WriteLine(hero.HP);
-//Console.WriteLine(hero.Attack);
-//Console.WriteLine(hero.Defence);
-//Console.WriteLine(hero.Speed);
-//Console.WriteLine("-----------");
-
-//Console.WriteLine("Monster1 Stat");
-//Console.WriteLine(monster1.Name);
-//Console.WriteLine(monster1.HP);
-//Console.WriteLine(monster1.Attack);
-//Console.WriteLine(monster1.Defence);
-//Console.WriteLine(monster1.Speed);
-//Console.WriteLine("-----------");
-
-//Console.WriteLine("Monster2 Stat");
-//Console.WriteLine(monster2.Name);
-//Console.WriteLine(monster2.HP);
-//Console.WriteLine(monster2.Attack);
-//Console.WriteLine(monster2.Defence);
-//Console.WriteLine(monster2.Speed);
-//Console.WriteLine("-----------");
-
-//Console.WriteLine("Test d'une equipe");
-//Console.WriteLine(teamHeroes.Members.Count);
-//Console.WriteLine($"Encore des membre vivant ? {teamHeroes.IsDefeated()}");
-//Console.WriteLine("-----------");
-
-//hero.ExecuteAttack(monster1);
-
-//Console.WriteLine($"{monster1.HP}/{monster1.MaxHP} HP");
-
-//hero.ExecuteAttack(monster3);
-
-//Console.WriteLine($"{monster3.HP}/{monster3.MaxHP} HP");
-//Console.WriteLine($"Monstre vivant ? {monster3.IsAlive}");
-//Console.WriteLine($"Encore des membre vivant ? {teamMonsters2.IsDefeated()}");
-
-//----------------------------------------------------------------------
-
-//----------------------------------------------------------------------
-//Test 2
+//Test
 
 Hero hero = new("Hero", 100, 10, 3, 40);
 
@@ -95,8 +44,10 @@ teamMonsters.AddMember(monster2);
 
 BasicAttack basicAttack = new();
 PowerStrike powerStrike = new();
+Heal heal = new();
 hero.AddSkill(basicAttack);
 hero.AddSkill(powerStrike);
+hero.AddSkill(heal);
 monster1.AddSkill(basicAttack);
 monster1.AddSkill(powerStrike);
 monster2.AddSkill(basicAttack);

@@ -13,15 +13,13 @@ namespace Auto_Battler.Skills
         public string Description { get; }
         public TargetType TargetType { get; }
         public int Cooldown { get; }
-        public int Priority { get; }
 
-        protected Skill(string name, string description, TargetType targetType, int cooldown, int priority)
+        protected Skill(string name, string description, TargetType targetType, int cooldown)
         {
             Name = name;
             Description = description;
             TargetType = targetType;
             Cooldown = cooldown;
-            Priority = priority;
         }
 
         public virtual bool CanExecute(Character caster)
@@ -39,5 +37,7 @@ namespace Auto_Battler.Skills
         }
 
         public abstract double Execute(Character caster, Character target);
+
+        public abstract int GetPriority(Character caster);
     }
 }

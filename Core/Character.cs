@@ -76,9 +76,13 @@ namespace Auto_Battler.Core
             return finalDamage;
         }
 
-        public void Heal(double amount)
+        public double Heal(double amount)
         {
-            HP = Math.Min(MaxHP, HP + amount);
+            double healAmount = Math.Min(MaxHP - HP, amount);
+
+            HP += healAmount;
+
+            return healAmount;
         }
 
         public void UpdateActionProgress(double deltaTime)
@@ -123,8 +127,16 @@ namespace Auto_Battler.Core
 
         public void AddSkill(Skill skill)
         {
-            SkillCooldowns.Add(skill, 0);
-            Skills.Add(skill);
+            if (!Skills.Any(s => s.GetType() == skill.GetType()))
+            {
+                SkillCooldowns.Add(skill, 0);
+                Skills.Add(skill);
+            }
+            else
+            {
+                Console.WriteLine("Ce personnage possède déjà cette compétence.");
+            }
+
         }
 
         public Skill SelectSkill()
@@ -138,10 +150,10 @@ namespace Auto_Battler.Core
                 throw new InvalidOperationException($"{Name} has no usable skills.");
             }
 
-            int highestPriority = usableSkills.Max(x => x.Priority);
+            int highestPriority = usableSkills.Max(x => x.GetPriority(this));
 
             var usableSkillsWithPriority = usableSkills
-                .Where(s =>  s.Priority == highestPriority)
+                .Where(s => s.GetPriority(this) == highestPriority)
                 .ToList();
 
             return usableSkillsWithPriority[Random.Shared.Next(usableSkillsWithPriority.Count)];

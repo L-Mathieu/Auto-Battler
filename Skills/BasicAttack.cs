@@ -9,7 +9,7 @@ namespace Auto_Battler.Skills
 {
     public class BasicAttack : Skill
     {
-        public BasicAttack() : base("Basic Attack", "Une simple attaque", TargetType.Enemy, 0, 0)
+        public BasicAttack() : base("Basic Attack", "Une simple attaque", TargetType.Enemy, 0)
         {
         }
 
@@ -21,6 +21,11 @@ namespace Auto_Battler.Skills
         public override double Execute(Character caster, Character target)
         {
             return target.TakeDamage(caster.Attack);
+        }
+
+        public override int GetPriority(Character caster)
+        {
+            return 0;
         }
     }
 }

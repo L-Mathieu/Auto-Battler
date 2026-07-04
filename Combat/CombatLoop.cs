@@ -1,5 +1,6 @@
 ﻿using Auto_Battler.Core;
 using Auto_Battler.Log.CombatLog;
+using Auto_Battler.Skills;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace Auto_Battler.Combat
 
             double targetHpBeforeAttack = target.HP;
 
-            double damage = skill.Execute(actor, target);
+            double amount = skill.Execute(actor, target);
 
             actor.StartCooldown(skill);
 
@@ -58,11 +59,13 @@ namespace Auto_Battler.Combat
                 AttackerName = actor.Name,
                 DefenderName = target.Name,
                 SkillName = skill.Name,
-                Damage = damage,
+                Amount = amount,
+                EventType = skill is Heal ? CombatEventType.Heal : CombatEventType.Damage,
                 DefenderHpBeforeAttack = targetHpBeforeAttack,
                 DefenderHpAfterAttack = target.HP,
                 DefenderIsAlive = target.IsAlive
             };
+
             FightLog.Add(combatEvent);
 
             _turnSystem.ConsumeTurn(actor);
