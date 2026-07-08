@@ -1,20 +1,37 @@
-﻿using Auto_Battler.Combat;
-using Auto_Battler.Core;
-using Auto_Battler.Core.Hero;
-using Auto_Battler.Core.Monster;
-using Auto_Battler.Log.CombatLog;
-using Auto_Battler.Skills;
+﻿using Auto_Battler.Domain;
+using Auto_Battler.Domain.Combat;
+using Auto_Battler.Domain.Hero;
+using Auto_Battler.Domain.Monster;
+using Auto_Battler.Domain.Skills;
+using static System.Net.Mime.MediaTypeNames;
 
 /// <summary>
 /// continuer de suivre ce plan
-//✅ BasicAttack
-//✅ PowerStrike
-//✅ Heal (même très simple)
-//✅ Modifier le ciblage pour permettre TargetType.Ally
-//✅ Constater que Heal est utilisé n'importe quand
-//Remplacer Priority par GetPriority()
-//Ajouter une vraie logique d'IA
-/// Modifier le ciblage pour permettre TargetType.Ally voir dernier message de chatgpt dans sujet Systeme de compétence auto battler
+//1) Nettoyer les dépendances
+//✅ supprimer les using inutiles ;
+//enlever les Console.WriteLine du Domain.
+//2) Créer une couche Application
+
+//Par exemple :
+
+//Application
+//└── GameService.cs
+
+//et déplacer progressivement la logique de création de partie dedans.
+
+//3) Préparer la sauvegarde
+
+//Créer :
+
+//Infrastructure
+//└── Persistence
+
+//avec un premier :
+
+//SaveRepository.cs
+//4) Ajouter SQLite
+//
+// ProjetAutobattler et bdd ChatGPT
 /// </summary>
 /// 
 /// <summary>
@@ -24,6 +41,7 @@ using Auto_Battler.Skills;
 /// CombatSystem gère les règles du combat ;
 /// CombatLoop orchestre;
 /// CombatLog conserve l'historique.
+/// 
 /// 
 /// </summary>
 

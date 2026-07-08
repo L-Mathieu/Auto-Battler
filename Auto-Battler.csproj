@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Combat\CombatSystem\" />
-    <Folder Include="Effects\Skill\" />
+    <Folder Include="Domain\Combat\CombatSystem\" />
+    <Folder Include="Domain\Effects\Skill\" />
   </ItemGroup>
 
 </Project>

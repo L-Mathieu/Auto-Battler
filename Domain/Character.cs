@@ -1,0 +1,172 @@
+﻿using Auto_Battler.Domain.Effects;
+using Auto_Battler.Domain.Skills;
+using Auto_Battler.Domain.Stats;
+
+namespace Auto_Battler.Domain
+{
+    public abstract class Character
+    {
+        public string Name { get; private set; }
+        public double MaxHP { get; private set; }
+        public double HP { get; private set; }
+
+        public double BaseAttack  { get; private set; }
+
+        public double Attack =>
+            ApplyModifiers(BaseAttack, StatType.Attack);
+
+        public double BaseDefence { get; private set; }
+        public double Defence =>
+            ApplyModifiers(BaseDefence, StatType.Defence);
+
+        public double BaseSpeed { get; private set; }
+        public double Speed =>
+            ApplyModifiers(BaseSpeed, StatType.Speed);
+
+        public List<StatusEffect> StatusEffects { get; } = new();
+        public List<Skill> Skills { get; } = new();
+        public Dictionary<Skill, int> SkillCooldowns { get; } = new();
+
+        public bool IsAlive => HP > 0;
+
+        public Team? Team { get; private set; }
+
+        public double ActionProgress { get; private set; }
+        public bool IsReady => ActionProgress >= 100;
+
+
+        public Character(
+            string name,
+            double maxHp, 
+            double baseAttack, 
+            double baseDefence,
+            double baseSpeed)
+        {
+            Name = name;
+
+            MaxHP = Math.Max(0, maxHp);
+            HP = MaxHP;
+
+            BaseAttack = Math.Max(0, baseAttack);
+
+            BaseDefence = Math.Max(0, baseDefence);
+
+            BaseSpeed = Math.Max(0, baseSpeed);
+
+            ActionProgress = 0;
+        }
+
+        internal void SetTeam(Team? team)
+        {
+            Team = team;
+        }
+
+        public double TakeDamage(double damage)
+        {
+            double finalDamage = Math.Max(1, damage - Defence);
+
+            HP = Math.Max(0, HP - finalDamage);
+
+            return finalDamage;
+        }
+
+        public double Heal(double amount)
+        {
+            double healAmount = Math.Min(MaxHP - HP, amount);
+
+            HP += healAmount;
+
+            return healAmount;
+        }
+
+        public void UpdateActionProgress(double deltaTime)
+        {
+            ActionProgress += Speed * deltaTime;
+        }
+
+        public void ResetActionProgress()
+        {
+            ActionProgress = 0;
+        }
+
+        private IEnumerable<IStatModifier> GetAllModifiers()
+        {
+            foreach (var effect in StatusEffects)
+            {
+                foreach (var mod in effect.GetModifiers())
+                {
+                    yield return mod;
+                }
+            }
+        }
+
+        private double ApplyModifiers(double baseValue, StatType stat)
+        {
+            double flat = 0;
+            double multiplier = 1;
+
+            foreach (var mod in GetAllModifiers())
+            {
+                if (mod.Stat != stat)
+                    continue;
+
+                if (mod.ModifierType == ModifierType.Additive)
+                    flat += mod.Value;
+                else
+                    multiplier *= 1 + mod.Value;
+            }
+
+            return (baseValue + flat) * multiplier;
+        }
+
+        public void AddSkill(Skill skill)
+        {
+            if (!Skills.Any(s => s.GetType() == skill.GetType()))
+            {
+                SkillCooldowns.Add(skill, 0);
+                Skills.Add(skill);
+            }
+            else
+            {
+                throw new InvalidOperationException("Ce personnage possède déjà cette compétence.");
+            }
+
+        }
+
+        public Skill SelectSkill()
+        {                        
+            var usableSkills = Skills
+                .Where(s => s.CanExecute(this))
+                .ToList();
+
+            if (usableSkills.Count == 0)
+            {
+                throw new InvalidOperationException($"{Name} has no usable skills.");
+            }
+
+            int highestPriority = usableSkills.Max(x => x.GetPriority(this));
+
+            var usableSkillsWithPriority = usableSkills
+                .Where(s => s.GetPriority(this) == highestPriority)
+                .ToList();
+
+            return usableSkillsWithPriority[Random.Shared.Next(usableSkillsWithPriority.Count)];
+        }
+
+        public void StartCooldown(Skill skill)
+        {
+            SkillCooldowns[skill] = skill.Cooldown;
+        }
+
+        public void ReduceCooldown()
+        {
+            foreach (var skill in SkillCooldowns.Keys.ToList())
+            {
+                if (SkillCooldowns[skill] > 0)
+                {
+                    SkillCooldowns[skill]--;
+                }
+            }
+        }
+    }
+}
