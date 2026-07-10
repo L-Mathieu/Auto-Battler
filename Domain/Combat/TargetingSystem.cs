@@ -1,19 +1,19 @@
 ﻿namespace Auto_Battler.Domain.Combat
 {
-    public class TargetingSystem
+    public class TargetingSystem : ITargetingSystem
     {
-        private readonly Random _random = new Random();
-
-        public Character GetRandomTarget(Team enemyTeam)
+        public Character GetTarget(Team team)
         {
-            var enemies = enemyTeam.Members
+            var aliveMembers = team.Members
                 .Where(c => c.IsAlive)
                 .ToList();
 
-            if (enemies.Count == 0)
+            if (aliveMembers.Count == 0)
                 return null;
 
-            return enemies[_random.Next(enemies.Count)];
+            return aliveMembers[
+                Random.Shared.Next(aliveMembers.Count)
+            ];
         }
     }
 }

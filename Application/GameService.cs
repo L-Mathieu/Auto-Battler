@@ -80,7 +80,7 @@ namespace Auto_Battler.Application
 
         private CombatLoop CreateCombat()
         {
-            return new CombatLoop(_teamHeroes, _teamMonsters);
+            return new CombatLoop(_teamHeroes, _teamMonsters, new TargetingSystem());
         }
 
         private void StartCombat(CombatLoop combatLoop)

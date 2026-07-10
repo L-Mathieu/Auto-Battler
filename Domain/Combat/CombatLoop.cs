@@ -7,13 +7,13 @@ namespace Auto_Battler.Domain.Combat
     {
         public bool IsFinished { get; private set; }
 
-        private CombatSystem _combatSystem;
-        private TurnSystem _turnSystem;
+        private readonly CombatSystem _combatSystem;
+        private readonly TurnSystem _turnSystem;
         public CombatLog FightLog { get; }
 
-        public CombatLoop(Team teamA, Team teamB)
+        public CombatLoop(Team teamA, Team teamB, ITargetingSystem targetingSystem)
         {
-            _combatSystem = new CombatSystem(teamA, teamB);
+            _combatSystem = new CombatSystem(teamA, teamB, targetingSystem);
 
             var allCharacters = teamA.Members.Concat(teamB.Members);
             _turnSystem = new TurnSystem(allCharacters);

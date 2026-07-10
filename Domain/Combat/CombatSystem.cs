@@ -7,15 +7,16 @@ namespace Auto_Battler.Domain.Combat
         private readonly Team _teamA;
         private readonly Team _teamB;
 
-        private readonly TargetingSystem _targetingSystem;
+        private readonly ITargetingSystem _targetingSystem;
 
         public Team? WinningTeam { get; private set; }
 
-        public CombatSystem(Team teamA, Team teamB)
+        public CombatSystem(Team teamA, Team teamB, ITargetingSystem targetingSystem)
         {
             _teamA = teamA;
             _teamB = teamB;
-            _targetingSystem = new TargetingSystem();
+
+            _targetingSystem = targetingSystem;
         }
 
         public Character GetTarget(Character actor, TargetType targetType)
@@ -37,7 +38,7 @@ namespace Auto_Battler.Domain.Combat
                     return actor;
             }
 
-            var target = _targetingSystem.GetRandomTarget(team);
+            var target = _targetingSystem.GetTarget(team);
 
             if (target == null)
             {
