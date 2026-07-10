@@ -25,7 +25,6 @@ namespace Auto_Battler.Domain.Combat
         {
             if (IsFinished)
             {
-                Console.WriteLine("combat fini");
                 return;
             }
 
