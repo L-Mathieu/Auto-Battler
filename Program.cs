@@ -10,7 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 /// continuer de suivre ce plan
 //1) Nettoyer les dépendances
 //✅ supprimer les using inutiles ;
-//enlever les Console.WriteLine du Domain.
+//✅ enlever les Console.WriteLine du Domain.
 //2) Créer une couche Application
 
 //Par exemple :
@@ -33,6 +33,10 @@ using static System.Net.Mime.MediaTypeNames;
 //4) Ajouter SQLite
 //
 // ProjetAutobattler et bdd ChatGPT
+
+// TODO: Faire évoluer le ciblage pour permettre une stratégie
+// adaptée au personnage, à la compétence et à l'état du combat.
+
 /// </summary>
 /// 
 /// <summary>

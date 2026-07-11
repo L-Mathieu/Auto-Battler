@@ -1,5 +1,6 @@
 ﻿using Auto_Battler.Domain;
 using Auto_Battler.Domain.Combat;
+using Auto_Battler.Domain.Combat.Targeting;
 using Auto_Battler.Domain.Hero;
 using Auto_Battler.Domain.Monster;
 using Auto_Battler.Domain.Skills;
@@ -80,7 +81,7 @@ namespace Auto_Battler.Application
 
         private CombatLoop CreateCombat()
         {
-            return new CombatLoop(_teamHeroes, _teamMonsters, new TargetingSystem());
+            return new CombatLoop(_teamHeroes, _teamMonsters, new RandomTargetingSystem());
         }
 
         private void StartCombat(CombatLoop combatLoop)

@@ -1,8 +1,8 @@
-﻿namespace Auto_Battler.Domain.Combat
+﻿namespace Auto_Battler.Domain.Combat.Targeting
 {
-    public class TargetingSystem : ITargetingSystem
+    public class RandomTargetingSystem : ITargetingSystem
     {
-        public Character GetTarget(Team team)
+        public Character? GetTarget(Team team)
         {
             var aliveMembers = team.Members
                 .Where(c => c.IsAlive)

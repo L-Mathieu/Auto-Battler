@@ -1,4 +1,5 @@
-﻿using Auto_Battler.Domain.Skills;
+﻿using Auto_Battler.Domain.Combat.Targeting;
+using Auto_Battler.Domain.Skills;
 
 namespace Auto_Battler.Domain.Combat
 {
@@ -22,7 +23,10 @@ namespace Auto_Battler.Domain.Combat
         public Character GetTarget(Character actor, TargetType targetType)
         {
             if (actor.Team == null)
-                return null;
+            {
+                throw new InvalidOperationException(
+                    $"{actor.Name} does not belong to a team.");
+            }
 
             Team team = actor.Team;
 

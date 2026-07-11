@@ -1,4 +1,5 @@
-﻿using Auto_Battler.Domain.Skills;
+﻿using Auto_Battler.Domain.Combat.Targeting;
+using Auto_Battler.Domain.Skills;
 using Auto_Battler.Infrastructure.Log.CombatLog;
 
 namespace Auto_Battler.Domain.Combat
