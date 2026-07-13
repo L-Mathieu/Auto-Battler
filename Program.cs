@@ -1,10 +1,5 @@
 ﻿using Auto_Battler.Application;
-using Auto_Battler.Domain;
-using Auto_Battler.Domain.Combat;
-using Auto_Battler.Domain.Hero;
-using Auto_Battler.Domain.Monster;
-using Auto_Battler.Domain.Skills;
-using static System.Net.Mime.MediaTypeNames;
+using Auto_Battler.Infrastructure.Persistence;
 
 /// <summary>
 /// continuer de suivre ce plan
@@ -16,9 +11,9 @@ using static System.Net.Mime.MediaTypeNames;
 //Par exemple :
 
 //Application
-//└── GameService.cs
+//└── ✅ GameService.cs
 
-//et déplacer progressivement la logique de création de partie dedans.
+//✅ et déplacer progressivement la logique de création de partie dedans.
 
 //3) Préparer la sauvegarde
 
@@ -47,14 +42,36 @@ using static System.Net.Mime.MediaTypeNames;
 /// CombatLoop orchestre;
 /// CombatLog conserve l'historique.
 /// 
+/// Application
+///
+///HeroSave
+///       ↓
+///    "quelles données ?"
+///
+///
+///    IHeroRepository
+///       ↓
+///    "quelles opérations sont nécessaires ?"
+///
+///
+///Infrastructure
+///
+///    SqliteHeroRepository
+///       ↓
+///    "comment je fais techniquement ?"
+/// 
 /// 
 /// </summary>
 
 //----------------------------------------------------------------------
 //Test
+SQLitePCL.Batteries.Init();
 
-GameService game = new();
+DatabaseInitializer databaseInitializer = new();
+databaseInitializer.Initialize();
 
-game.Run();
+//GameService game = new();
+
+//game.Run();
 
 //----------------------------------------------------------------------
