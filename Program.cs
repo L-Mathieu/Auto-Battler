@@ -1,4 +1,5 @@
 ﻿using Auto_Battler.Application;
+using Auto_Battler.Application.Models;
 using Auto_Battler.Infrastructure.Persistence;
 
 /// <summary>
@@ -65,13 +66,50 @@ using Auto_Battler.Infrastructure.Persistence;
 
 //----------------------------------------------------------------------
 //Test
-SQLitePCL.Batteries.Init();
+//SQLitePCL.Batteries.Init();
 
-DatabaseInitializer databaseInitializer = new();
-databaseInitializer.Initialize();
+//DatabaseInitializer databaseInitializer = new();
+//databaseInitializer.Initialize();
 
 //GameService game = new();
 
 //game.Run();
+
+//----------------------------------------------------------------------
+
+//----------------------------------------------------------------------
+//Test CRUD
+
+// CREATE
+
+//HeroSave hero = new()
+//{
+//    Name = "Arthur",
+//    MaxHP = 100,
+//    HP = 100,
+//    BaseAttack = 15,
+//    BaseDefence = 5,
+//    BaseSpeed = 40
+//};
+
+//SqliteHeroRepository repository = new();
+
+//repository.Create(hero);
+
+// READ
+
+SqliteHeroRepository repository = new();
+
+HeroSave? hero = repository.Get(1);
+
+if (hero != null)
+{
+    Console.WriteLine(hero.Name);
+    Console.WriteLine(hero.HP);
+}
+else
+{
+    Console.WriteLine("Héros introuvable");
+}
 
 //----------------------------------------------------------------------
