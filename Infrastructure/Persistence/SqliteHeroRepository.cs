@@ -90,12 +90,64 @@ namespace Auto_Battler.Infrastructure.Persistence
 
         public void Update(HeroSave hero)
         {
-            throw new NotImplementedException();
+            using var connection =
+                new SqliteConnection(ConnectionString);
+
+            connection.Open();
+
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+            """
+            UPDATE Heroes
+            SET
+                Name = $name,
+                MaxHP = $maxHP,
+                HP = $hp,
+                BaseAttack = $attack,
+                BaseDefence = $defence,
+                BaseSpeed = $speed
+            WHERE
+                Id = $id
+            """;
+
+            command.Parameters.AddWithValue("$id", hero.Id);
+            command.Parameters.AddWithValue("$name", hero.Name);
+            command.Parameters.AddWithValue("$maxHP", hero.MaxHP);
+            command.Parameters.AddWithValue("$hp", hero.HP);
+            command.Parameters.AddWithValue("$attack", hero.BaseAttack);
+            command.Parameters.AddWithValue("$defence", hero.BaseDefence);
+            command.Parameters.AddWithValue("$speed", hero.BaseSpeed);
+
+            command.ExecuteNonQuery();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            using var connection =
+                new SqliteConnection(ConnectionString);
+
+            connection.Open();
+
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+            """
+            DELETE FROM Heroes WHERE Id = $id
+            """;
+
+            command.Parameters.AddWithValue("$id", id);
+
+            command.ExecuteNonQuery();
+
+            //using var reader = command.ExecuteReader();
+
+            //if (!reader.Read())
+            //{
+            //    throw new InvalidOperationException("Ce personnage ne se trouve pas dans la DB.");
+            //}
+
+            //throw new NotImplementedException();
         }
     }
 }

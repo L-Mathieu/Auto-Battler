@@ -66,10 +66,10 @@ using Auto_Battler.Infrastructure.Persistence;
 
 //----------------------------------------------------------------------
 //Test
-//SQLitePCL.Batteries.Init();
+SQLitePCL.Batteries.Init();
 
-//DatabaseInitializer databaseInitializer = new();
-//databaseInitializer.Initialize();
+DatabaseInitializer databaseInitializer = new();
+databaseInitializer.Initialize();
 
 //GameService game = new();
 
@@ -98,18 +98,20 @@ using Auto_Battler.Infrastructure.Persistence;
 
 // READ
 
-SqliteHeroRepository repository = new();
+//SqliteHeroRepository repository = new();
 
-HeroSave? hero = repository.Get(1);
+////repository.Delete(1);
 
-if (hero != null)
-{
-    Console.WriteLine(hero.Name);
-    Console.WriteLine(hero.HP);
-}
-else
-{
-    Console.WriteLine("Héros introuvable");
-}
+//HeroSave? hero = repository.Get(1);
+
+//if (hero != null)
+//{
+//    Console.WriteLine(hero.Name);
+//    Console.WriteLine(hero.HP);
+//}
+//else
+//{
+//    Console.WriteLine("Héros introuvable");
+//}
 
 //----------------------------------------------------------------------
