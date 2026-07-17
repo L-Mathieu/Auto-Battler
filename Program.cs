@@ -66,10 +66,10 @@ using Auto_Battler.Infrastructure.Persistence;
 
 //----------------------------------------------------------------------
 //Test
-SQLitePCL.Batteries.Init();
+//SQLitePCL.Batteries.Init();
 
-DatabaseInitializer databaseInitializer = new();
-databaseInitializer.Initialize();
+//DatabaseInitializer databaseInitializer = new();
+//databaseInitializer.Initialize();
 
 //GameService game = new();
 

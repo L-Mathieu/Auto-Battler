@@ -139,15 +139,6 @@ namespace Auto_Battler.Infrastructure.Persistence
             command.Parameters.AddWithValue("$id", id);
 
             command.ExecuteNonQuery();
-
-            //using var reader = command.ExecuteReader();
-
-            //if (!reader.Read())
-            //{
-            //    throw new InvalidOperationException("Ce personnage ne se trouve pas dans la DB.");
-            //}
-
-            //throw new NotImplementedException();
         }
     }
 }
