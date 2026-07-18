@@ -22,6 +22,7 @@ namespace Auto_Battler.Infrastructure.Persistence
             (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
                 Name TEXT NOT NULL,
+                Level INTEGER NOT NULL,
                 MaxHP REAL NOT NULL,
                 HP REAL NOT NULL,
                 BaseAttack REAL NOT NULL,

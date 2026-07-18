@@ -1,4 +1,6 @@
-﻿using Auto_Battler.Domain;
+﻿using Auto_Battler.Application.Interfaces;
+using Auto_Battler.Application.Models;
+using Auto_Battler.Domain;
 using Auto_Battler.Domain.Combat;
 using Auto_Battler.Domain.Combat.Targeting;
 using Auto_Battler.Domain.Hero;
@@ -13,6 +15,8 @@ namespace Auto_Battler.Application
 
         private Team _teamHeroes;
 
+        private readonly IHeroRepository _heroRepository;
+
         private Monster _monster1;
         private Monster _monster2;
 
@@ -21,6 +25,11 @@ namespace Auto_Battler.Application
         private BasicAttack _basicAttack;
         private PowerStrike _powerStrike;
         private Heal _heal;
+
+        public GameService(IHeroRepository heroRepository)
+        {
+            _heroRepository = heroRepository;
+        }
 
         public void Run()
         {
@@ -105,6 +114,20 @@ namespace Auto_Battler.Application
 
             var winner = combatLoop.GetWinningTeam();
             Console.WriteLine($"Vainqueur : {winner.Name}");
+        }
+
+        private HeroSave CreateHeroSave()
+        {
+            return new HeroSave
+            {
+                Name = _hero.Name,
+                Level = _hero.Level,
+                MaxHP = _hero.MaxHP,
+                HP = _hero.HP,
+                BaseAttack = _hero.BaseAttack,
+                BaseDefence = _hero.BaseDefence,
+                BaseSpeed = _hero.BaseSpeed
+            };
         }
     }
 }

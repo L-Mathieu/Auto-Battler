@@ -56,6 +56,26 @@ namespace Auto_Battler.Domain
             ActionProgress = 0;
         }
 
+        public Character(
+            string name,
+            double maxHp,
+            double hp,
+            double baseAttack,
+            double baseDefence,
+            double baseSpeed)
+        {
+            Name = name;
+
+            MaxHP = Math.Max(0, maxHp);
+            HP = Math.Clamp(hp, 0, MaxHP);
+
+            BaseAttack = Math.Max(0, baseAttack);
+            BaseDefence = Math.Max(0, baseDefence);
+            BaseSpeed = Math.Max(0, baseSpeed);
+
+            ActionProgress = 0;
+        }
+
         internal void SetTeam(Team? team)
         {
             Team = team;

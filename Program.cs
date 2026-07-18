@@ -1,4 +1,5 @@
 ﻿using Auto_Battler.Application;
+using Auto_Battler.Application.Interfaces;
 using Auto_Battler.Application.Models;
 using Auto_Battler.Infrastructure.Persistence;
 
@@ -66,12 +67,16 @@ using Auto_Battler.Infrastructure.Persistence;
 
 //----------------------------------------------------------------------
 //Test
-//SQLitePCL.Batteries.Init();
+SQLitePCL.Batteries.Init();
 
-//DatabaseInitializer databaseInitializer = new();
-//databaseInitializer.Initialize();
+DatabaseInitializer databaseInitializer = new();
+databaseInitializer.Initialize();
 
-//GameService game = new();
+//IHeroRepository repository =
+//    new SqliteHeroRepository();
+
+//GameService game =
+//    new GameService(repository);
 
 //game.Run();
 
@@ -113,5 +118,8 @@ using Auto_Battler.Infrastructure.Persistence;
 //{
 //    Console.WriteLine("Héros introuvable");
 //}
+
+SqliteHeroRepository repository = new();
+repository.ResetTable();
 
 //----------------------------------------------------------------------

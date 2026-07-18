@@ -24,24 +24,27 @@ namespace Auto_Battler.Infrastructure.Persistence
             INSERT INTO Heroes
             (
                 Name,
+                Level,
                 MaxHP,
                 HP,
                 BaseAttack,
                 BaseDefence,
-                BaseSpeed
+                BaseSpeed,
             )
             VALUES
             (
                 $name,
+                $level
                 $maxHp,
                 $hp,
                 $attack,
                 $defence,
-                $speed
+                $speed,
             );
             """;
 
             command.Parameters.AddWithValue("$name", hero.Name);
+            command.Parameters.AddWithValue("level", hero.Level);
             command.Parameters.AddWithValue("$maxHp", hero.MaxHP);
             command.Parameters.AddWithValue("$hp", hero.HP);
             command.Parameters.AddWithValue("$attack", hero.BaseAttack);
@@ -77,12 +80,13 @@ namespace Auto_Battler.Infrastructure.Persistence
             HeroSave hero = new HeroSave
             {
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Level = reader.GetInt32(reader.GetOrdinal("Level")),
                 Name = reader.GetString(reader.GetOrdinal("Name")),
                 MaxHP = reader.GetDouble(reader.GetOrdinal("MaxHP")),
                 HP = reader.GetDouble(reader.GetOrdinal("HP")),
                 BaseAttack = reader.GetDouble(reader.GetOrdinal("BaseAttack")),
                 BaseDefence = reader.GetDouble(reader.GetOrdinal("BaseDefence")),
-                BaseSpeed = reader.GetDouble(reader.GetOrdinal("BaseSpeed"))
+                BaseSpeed = reader.GetDouble(reader.GetOrdinal("BaseSpeed")),
             };
 
             return hero;
@@ -102,17 +106,19 @@ namespace Auto_Battler.Infrastructure.Persistence
             UPDATE Heroes
             SET
                 Name = $name,
+                Level = $level,
                 MaxHP = $maxHP,
                 HP = $hp,
                 BaseAttack = $attack,
                 BaseDefence = $defence,
-                BaseSpeed = $speed
+                BaseSpeed = $speed,
             WHERE
                 Id = $id
             """;
 
             command.Parameters.AddWithValue("$id", hero.Id);
             command.Parameters.AddWithValue("$name", hero.Name);
+            command.Parameters.AddWithValue("level", hero.Level);
             command.Parameters.AddWithValue("$maxHP", hero.MaxHP);
             command.Parameters.AddWithValue("$hp", hero.HP);
             command.Parameters.AddWithValue("$attack", hero.BaseAttack);
@@ -137,6 +143,24 @@ namespace Auto_Battler.Infrastructure.Persistence
             """;
 
             command.Parameters.AddWithValue("$id", id);
+
+            command.ExecuteNonQuery();
+        }
+
+        public void ResetTable()
+        {
+            using var connection =
+                new SqliteConnection(ConnectionString);
+
+            connection.Open();
+
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+            """
+            DELETE FROM Heroes;
+            DELETE FROM sqlite_sequence WHERE name = 'Heroes';
+            """;
 
             command.ExecuteNonQuery();
         }

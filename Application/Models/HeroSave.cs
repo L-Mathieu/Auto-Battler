@@ -6,6 +6,8 @@
 
         public string Name { get; set; } = string.Empty;
 
+        public int Level { get; set; }
+
         public double MaxHP { get; set; }
 
         public double HP { get; set; }
