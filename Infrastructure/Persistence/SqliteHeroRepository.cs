@@ -10,7 +10,7 @@ namespace Auto_Battler.Infrastructure.Persistence
         private const string ConnectionString =
             "Data Source=../../../Data/autobattler.db";
 
-        public void Create(HeroSave hero)
+        public int Create(HeroSave hero)
         {
             using var connection =
                 new SqliteConnection(ConnectionString);
@@ -29,22 +29,22 @@ namespace Auto_Battler.Infrastructure.Persistence
                 HP,
                 BaseAttack,
                 BaseDefence,
-                BaseSpeed,
+                BaseSpeed
             )
             VALUES
             (
                 $name,
-                $level
+                $level,
                 $maxHp,
                 $hp,
                 $attack,
                 $defence,
-                $speed,
+                $speed
             );
             """;
 
             command.Parameters.AddWithValue("$name", hero.Name);
-            command.Parameters.AddWithValue("level", hero.Level);
+            command.Parameters.AddWithValue("$level", hero.Level);
             command.Parameters.AddWithValue("$maxHp", hero.MaxHP);
             command.Parameters.AddWithValue("$hp", hero.HP);
             command.Parameters.AddWithValue("$attack", hero.BaseAttack);
@@ -52,6 +52,17 @@ namespace Auto_Battler.Infrastructure.Persistence
             command.Parameters.AddWithValue("$speed", hero.BaseSpeed);
 
             command.ExecuteNonQuery();
+
+            var commandGetLastId = connection.CreateCommand();
+
+            commandGetLastId.CommandText =
+            """
+            SELECT last_insert_rowid();
+            """;
+
+            long id = (long)commandGetLastId.ExecuteScalar();
+
+            return (int)id;
         }
 
         public HeroSave? Get(int id)
@@ -86,7 +97,7 @@ namespace Auto_Battler.Infrastructure.Persistence
                 HP = reader.GetDouble(reader.GetOrdinal("HP")),
                 BaseAttack = reader.GetDouble(reader.GetOrdinal("BaseAttack")),
                 BaseDefence = reader.GetDouble(reader.GetOrdinal("BaseDefence")),
-                BaseSpeed = reader.GetDouble(reader.GetOrdinal("BaseSpeed")),
+                BaseSpeed = reader.GetDouble(reader.GetOrdinal("BaseSpeed"))
             };
 
             return hero;
@@ -111,14 +122,14 @@ namespace Auto_Battler.Infrastructure.Persistence
                 HP = $hp,
                 BaseAttack = $attack,
                 BaseDefence = $defence,
-                BaseSpeed = $speed,
+                BaseSpeed = $speed
             WHERE
                 Id = $id
             """;
 
             command.Parameters.AddWithValue("$id", hero.Id);
             command.Parameters.AddWithValue("$name", hero.Name);
-            command.Parameters.AddWithValue("level", hero.Level);
+            command.Parameters.AddWithValue("$level", hero.Level);
             command.Parameters.AddWithValue("$maxHP", hero.MaxHP);
             command.Parameters.AddWithValue("$hp", hero.HP);
             command.Parameters.AddWithValue("$attack", hero.BaseAttack);

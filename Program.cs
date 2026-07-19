@@ -67,10 +67,10 @@ using Auto_Battler.Infrastructure.Persistence;
 
 //----------------------------------------------------------------------
 //Test
-SQLitePCL.Batteries.Init();
+//SQLitePCL.Batteries.Init();
 
-DatabaseInitializer databaseInitializer = new();
-databaseInitializer.Initialize();
+//DatabaseInitializer databaseInitializer = new();
+//databaseInitializer.Initialize();
 
 //IHeroRepository repository =
 //    new SqliteHeroRepository();
@@ -90,6 +90,7 @@ databaseInitializer.Initialize();
 //HeroSave hero = new()
 //{
 //    Name = "Arthur",
+//    Level = 1,
 //    MaxHP = 100,
 //    HP = 100,
 //    BaseAttack = 15,
@@ -99,7 +100,18 @@ databaseInitializer.Initialize();
 
 //SqliteHeroRepository repository = new();
 
-//repository.Create(hero);
+//int id = repository.Create(hero);
+
+//Console.WriteLine($"Id créé : {id}");
+
+//HeroSave? loadedHero = repository.Get(id);
+
+//if (loadedHero != null)
+//{
+//    Console.WriteLine($"Nom : {loadedHero.Name}");
+//    Console.WriteLine($"Niveau : {loadedHero.Level}");
+//    Console.WriteLine($"HP : {loadedHero.HP}");
+//}
 
 // READ
 
@@ -119,7 +131,36 @@ databaseInitializer.Initialize();
 //    Console.WriteLine("Héros introuvable");
 //}
 
-SqliteHeroRepository repository = new();
-repository.ResetTable();
+// UPDATE
+
+//SqliteHeroRepository repository = new();
+
+//HeroSave? heroToUpdate = repository.Get(1);
+
+//if (heroToUpdate != null)
+//{
+//    heroToUpdate.HP = 50;
+//    heroToUpdate.Level = 2;
+
+//    repository.Update(heroToUpdate);
+//}
+
+//HeroSave? updatedHero = repository.Get(1);
+
+//Console.WriteLine(updatedHero.HP);
+//Console.WriteLine(updatedHero.Level);
+
+// DELETE
+
+//SqliteHeroRepository repository = new();
+
+//repository.Delete(1);
+
+//HeroSave? deletedHero = repository.Get(1);
+
+//Console.WriteLine(deletedHero == null);
+
+//SqliteHeroRepository repository = new();
+//repository.ResetTable();
 
 //----------------------------------------------------------------------

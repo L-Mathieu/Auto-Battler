@@ -17,6 +17,8 @@ namespace Auto_Battler.Application
 
         private readonly IHeroRepository _heroRepository;
 
+        private int _heroSaveId;
+
         private Monster _monster1;
         private Monster _monster2;
 
@@ -34,12 +36,17 @@ namespace Auto_Battler.Application
         public void Run()
         {
             InitializeTeam();
+
+            SaveHero();
+
             InitializeSkills();
             AssignSkills();
 
             CombatLoop combatLoop = CreateCombat();
 
             StartCombat(combatLoop);
+
+            UpdateHero();
 
             DisplayResults(combatLoop);
         }
@@ -114,6 +121,16 @@ namespace Auto_Battler.Application
 
             var winner = combatLoop.GetWinningTeam();
             Console.WriteLine($"Vainqueur : {winner.Name}");
+        }
+
+        private void SaveHero()
+        {
+            int heroId = _heroRepository.Create(CreateHeroSave());
+        }
+
+        private void UpdateHero()
+        {
+            _heroRepository.Update(CreateHeroSave());
         }
 
         private HeroSave CreateHeroSave()

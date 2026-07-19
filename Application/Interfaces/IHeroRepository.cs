@@ -4,7 +4,7 @@ namespace Auto_Battler.Application.Interfaces
 {
     public interface IHeroRepository
     {
-        void Create(HeroSave hero);
+        int Create(HeroSave hero);
 
         HeroSave? Get(int id);
 
