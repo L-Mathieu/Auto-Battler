@@ -1,4 +1,5 @@
 ﻿using Auto_Battler.Application.Interfaces;
+using Auto_Battler.Application.Mappers;
 using Auto_Battler.Application.Models;
 using Auto_Battler.Domain;
 using Auto_Battler.Domain.Combat;
@@ -17,6 +18,8 @@ namespace Auto_Battler.Application
 
         private readonly IHeroRepository _heroRepository;
 
+        private readonly HeroMapper _heroMapper;
+
         private int _heroSaveId;
 
         private Monster _monster1;
@@ -31,6 +34,7 @@ namespace Auto_Battler.Application
         public GameService(IHeroRepository heroRepository)
         {
             _heroRepository = heroRepository;
+            _heroMapper = new HeroMapper();
         }
 
         public void Run()
@@ -125,26 +129,16 @@ namespace Auto_Battler.Application
 
         private void SaveHero()
         {
-            int heroId = _heroRepository.Create(CreateHeroSave());
+            _heroSaveId = _heroRepository.Create(_heroMapper.ToHeroSave(_hero));
         }
 
         private void UpdateHero()
         {
-            _heroRepository.Update(CreateHeroSave());
-        }
+            HeroSave heroSave = _heroMapper.ToHeroSave(_hero);
 
-        private HeroSave CreateHeroSave()
-        {
-            return new HeroSave
-            {
-                Name = _hero.Name,
-                Level = _hero.Level,
-                MaxHP = _hero.MaxHP,
-                HP = _hero.HP,
-                BaseAttack = _hero.BaseAttack,
-                BaseDefence = _hero.BaseDefence,
-                BaseSpeed = _hero.BaseSpeed
-            };
+            heroSave.Id = _heroSaveId;
+
+            _heroRepository.Update(heroSave);
         }
     }
 }
