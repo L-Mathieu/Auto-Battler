@@ -2,6 +2,7 @@
 using Auto_Battler.Application.Models;
 using Auto_Battler.Domain.Hero;
 using Microsoft.Data.Sqlite;
+using System.Reflection.PortableExecutable;
 
 namespace Auto_Battler.Infrastructure.Persistence
 {
@@ -88,6 +89,37 @@ namespace Auto_Battler.Infrastructure.Persistence
                 return null;
             }
 
+            return MapHero(reader);
+        }
+
+        public List<HeroSave> GetAll()
+        {
+            using var connection =
+                new SqliteConnection(ConnectionString);
+
+            connection.Open();
+
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+            """
+            SELECT * FROM Heroes
+            """;
+
+            using var reader = command.ExecuteReader();
+
+            List<HeroSave> heroSaveList = new List<HeroSave>();
+
+            while (reader.Read())
+            {
+                heroSaveList.Add(MapHero(reader));
+            }
+
+            return heroSaveList;
+        }
+
+        private HeroSave MapHero(SqliteDataReader reader)
+        {
             HeroSave hero = new HeroSave
             {
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),

@@ -8,6 +8,8 @@ namespace Auto_Battler.Application.Interfaces
 
         HeroSave? Get(int id);
 
+        List<HeroSave> GetAll();
+
         void Update(HeroSave hero);
 
         void Delete(int id);

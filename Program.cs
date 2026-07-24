@@ -2,6 +2,7 @@
 using Auto_Battler.Application.Interfaces;
 using Auto_Battler.Application.Models;
 using Auto_Battler.Infrastructure.Persistence;
+using Microsoft.Data.Sqlite;
 
 /// <summary>
 /// continuer de suivre ce plan
@@ -89,7 +90,7 @@ using Auto_Battler.Infrastructure.Persistence;
 
 //HeroSave hero = new()
 //{
-//    Name = "Arthur",
+//    Name = "arthur",
 //    Level = 1,
 //    MaxHP = 100,
 //    HP = 100,
@@ -98,19 +99,30 @@ using Auto_Battler.Infrastructure.Persistence;
 //    BaseSpeed = 40
 //};
 
+//HeroSave hero = new()
+//{
+//    Name = "bob",
+//    Level = 1,
+//    MaxHP = 80,
+//    HP = 80,
+//    BaseAttack = 20,
+//    BaseDefence = 6,
+//    BaseSpeed = 41
+//};
+
 //SqliteHeroRepository repository = new();
 
 //int id = repository.Create(hero);
 
-//Console.WriteLine($"Id créé : {id}");
+//Console.WriteLine($"id créé : {id}");
 
-//HeroSave? loadedHero = repository.Get(id);
+//HeroSave? loadedhero = repository.Get(id);
 
-//if (loadedHero != null)
+//if (loadedhero != null)
 //{
-//    Console.WriteLine($"Nom : {loadedHero.Name}");
-//    Console.WriteLine($"Niveau : {loadedHero.Level}");
-//    Console.WriteLine($"HP : {loadedHero.HP}");
+//    Console.WriteLine($"nom : {loadedhero.Name}");
+//    Console.WriteLine($"niveau : {loadedhero.Level}");
+//    Console.WriteLine($"hp : {loadedhero.HP}");
 //}
 
 // READ
@@ -164,3 +176,58 @@ using Auto_Battler.Infrastructure.Persistence;
 //repository.ResetTable();
 
 //----------------------------------------------------------------------
+
+using var connection =
+    new SqliteConnection("Data Source=../../../Data/autobattler.db");
+
+connection.Open();
+
+var command = connection.CreateCommand();
+
+command.CommandText =
+"""
+SELECT * FROM Heroes
+""";
+
+using var reader = command.ExecuteReader();
+
+if(!reader.Read())
+{
+    Console.WriteLine("NULL");
+}
+else
+{
+    Console.WriteLine("PAS NULL");
+}
+
+List<HeroSave>list = new List<HeroSave>();
+
+foreach (var item in reader)
+{
+    Console.WriteLine("Pouet");
+
+    Console.WriteLine(item);
+
+    HeroSave heroload = new HeroSave
+    {
+        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+        Level = reader.GetInt32(reader.GetOrdinal("Level")),
+        Name = reader.GetString(reader.GetOrdinal("Name")),
+        MaxHP = reader.GetDouble(reader.GetOrdinal("MaxHP")),
+        HP = reader.GetDouble(reader.GetOrdinal("HP")),
+        BaseAttack = reader.GetDouble(reader.GetOrdinal("BaseAttack")),
+        BaseDefence = reader.GetDouble(reader.GetOrdinal("BaseDefence")),
+        BaseSpeed = reader.GetDouble(reader.GetOrdinal("BaseSpeed"))
+    };
+
+    list.Add(heroload);
+}
+
+Console.WriteLine(list.Count());
+
+foreach (var item in list)
+{
+    Console.WriteLine($"nom : {item.Name}");
+    Console.WriteLine($"niveau : {item.Level}");
+    Console.WriteLine($"hp : {item.HP}");
+}
