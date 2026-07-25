@@ -14,6 +14,8 @@ namespace Auto_Battler.Application
     {
         private Hero _hero;
 
+        private List<HeroSave> _heroList;
+
         private Team _teamHeroes;
 
         private readonly IHeroRepository _heroRepository;
@@ -37,14 +39,98 @@ namespace Auto_Battler.Application
             _heroMapper = new HeroMapper();
         }
 
-        public void Run()
+        public void StartNewGame()
         {
-            InitializeTeam();
+            string? heroName = null;
+
+            while (string.IsNullOrWhiteSpace(heroName))
+            {
+                Console.Write("Nom du héros : ");
+
+                heroName = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(heroName))
+                {
+                    Console.WriteLine("Le nom ne peut pas être vide.");
+                    Console.WriteLine();
+                }
+            }
+
+            _hero = new(heroName, 100, 15, 5, 40);
 
             SaveHero();
 
+            InitializeHeroTeam();
+
             InitializeSkills();
             AssignSkills();
+        }
+
+        public void LoadGame()
+        {
+            _heroList = _heroRepository.GetAll();
+
+            if (_heroList.Count == 0)
+            {
+                Console.WriteLine("Aucune sauvegarde disponible.");
+                return;
+            } 
+
+            if (_heroList.Count == 1)
+            {
+                _hero = _heroMapper.ToHero(_heroList[0]);
+            }
+            else
+            {
+                bool heroSelected = false;
+
+                string? playerChoice = null;
+
+                int index;
+
+                int number = -1;
+
+                while (!heroSelected)
+                {
+                    Console.WriteLine("Quel personnage voulez-vous charger ?");
+                    Console.WriteLine();
+
+                    int count = 1;
+
+                    foreach (var hero in _heroList)
+                    {
+                        Console.WriteLine($"Pour choisir ce personnage {hero.Name} Level : {hero.Level} entrer {count}");
+                        count++;
+                    }
+
+                    playerChoice = Console.ReadLine();
+
+                    if (int.TryParse(playerChoice, out number)
+                        && number >= 1
+                        && number <= _heroList.Count)
+                    {
+                        heroSelected = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Veuillez choisir un personnage existant.");
+                    }
+                }
+
+                index = number - 1;
+
+                _hero = _heroMapper.ToHero(_heroList[index]);
+            }
+
+            InitializeHeroTeam();
+
+            InitializeSkills();
+            AssignSkills();
+        }
+
+        public void Run()
+        {
+            InitializeMonsterTeam();
 
             CombatLoop combatLoop = CreateCombat();
 
@@ -130,6 +216,11 @@ namespace Auto_Battler.Application
         private void SaveHero()
         {
             _heroSaveId = _heroRepository.Create(_heroMapper.ToHeroSave(_hero));
+        }
+
+        private Hero LoadHero(int id)
+        {
+            return null;
         }
 
         private void UpdateHero()

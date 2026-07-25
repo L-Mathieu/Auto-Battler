@@ -1,6 +1,7 @@
 ﻿using Auto_Battler.Application;
 using Auto_Battler.Application.Interfaces;
 using Auto_Battler.Application.Models;
+using Auto_Battler.Domain.Hero;
 using Auto_Battler.Infrastructure.Persistence;
 using Microsoft.Data.Sqlite;
 
@@ -175,59 +176,20 @@ using Microsoft.Data.Sqlite;
 //SqliteHeroRepository repository = new();
 //repository.ResetTable();
 
+//GETALL
+
+//SqliteHeroRepository repository = new();
+
+//List<HeroSave>list = new List<HeroSave>();
+
+//list = repository.GetAll();
+
+//foreach (var item in list)
+//{
+//    Console.WriteLine($"nom : {item.Name}");
+//    Console.WriteLine($"niveau : {item.Level}");
+//    Console.WriteLine($"hp : {item.HP}");
+//}
+
 //----------------------------------------------------------------------
 
-using var connection =
-    new SqliteConnection("Data Source=../../../Data/autobattler.db");
-
-connection.Open();
-
-var command = connection.CreateCommand();
-
-command.CommandText =
-"""
-SELECT * FROM Heroes
-""";
-
-using var reader = command.ExecuteReader();
-
-if(!reader.Read())
-{
-    Console.WriteLine("NULL");
-}
-else
-{
-    Console.WriteLine("PAS NULL");
-}
-
-List<HeroSave>list = new List<HeroSave>();
-
-foreach (var item in reader)
-{
-    Console.WriteLine("Pouet");
-
-    Console.WriteLine(item);
-
-    HeroSave heroload = new HeroSave
-    {
-        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        Level = reader.GetInt32(reader.GetOrdinal("Level")),
-        Name = reader.GetString(reader.GetOrdinal("Name")),
-        MaxHP = reader.GetDouble(reader.GetOrdinal("MaxHP")),
-        HP = reader.GetDouble(reader.GetOrdinal("HP")),
-        BaseAttack = reader.GetDouble(reader.GetOrdinal("BaseAttack")),
-        BaseDefence = reader.GetDouble(reader.GetOrdinal("BaseDefence")),
-        BaseSpeed = reader.GetDouble(reader.GetOrdinal("BaseSpeed"))
-    };
-
-    list.Add(heroload);
-}
-
-Console.WriteLine(list.Count());
-
-foreach (var item in list)
-{
-    Console.WriteLine($"nom : {item.Name}");
-    Console.WriteLine($"niveau : {item.Level}");
-    Console.WriteLine($"hp : {item.HP}");
-}
