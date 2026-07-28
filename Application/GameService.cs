@@ -7,6 +7,7 @@ using Auto_Battler.Domain.Combat.Targeting;
 using Auto_Battler.Domain.Hero;
 using Auto_Battler.Domain.Monster;
 using Auto_Battler.Domain.Skills;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Auto_Battler.Application
 {
@@ -39,6 +40,74 @@ namespace Auto_Battler.Application
             _heroMapper = new HeroMapper();
         }
 
+        public void MainMenu()
+        {
+            _heroList = _heroRepository.GetAll();
+
+            int choice = 0;
+
+            while (choice == 0)
+            {
+                ShowMainMenu();
+
+                Console.Write("Que voulez vous faire ? : ");
+
+                var playerChoice = Console.ReadLine();
+
+                if (int.TryParse(playerChoice, out int number)
+                    && number >= 1
+                    && number <= 3)
+                {
+                    if (_heroList.Count == 0 && number == 2)
+                    {
+                        Console.WriteLine("Veuillez choisir une des deux options existantes.");
+                    }
+                    else
+                    {
+                        choice = number;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Veuillez choisir une des trois options existantes.");
+                }
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    StartNewGame();
+                    break;
+                case 2:
+                    LoadGame();
+                    break;
+                case 3:
+                    return;
+            }
+            Run();
+        }
+
+        private void ShowMainMenu()
+        {
+            Console.Clear();
+
+            Console.WriteLine("========================");
+            Console.WriteLine("      AUTO BATTLER      ");
+            Console.WriteLine("========================");
+            Console.WriteLine();
+            Console.WriteLine("1. Nouvelle partie");
+
+            if (_heroList.Count >= 1)
+            {
+                Console.WriteLine("2. Charger une partie");
+            }
+            else
+            {
+                Console.WriteLine("2. Charger une partie (aucune sauvegarde)");
+            }
+            Console.WriteLine("3. Quitter");
+        }
+
         public void StartNewGame()
         {
             string? heroName = null;
@@ -60,10 +129,7 @@ namespace Auto_Battler.Application
 
             SaveHero();
 
-            InitializeHeroTeam();
-
-            InitializeSkills();
-            AssignSkills();
+            PrepareHero();
         }
 
         public void LoadGame()
@@ -122,15 +188,13 @@ namespace Auto_Battler.Application
                 _hero = _heroMapper.ToHero(_heroList[index]);
             }
 
-            InitializeHeroTeam();
-
-            InitializeSkills();
-            AssignSkills();
+            PrepareHero();
         }
 
         public void Run()
         {
             InitializeMonsterTeam();
+            AssignMonsterSkills();
 
             CombatLoop combatLoop = CreateCombat();
 
@@ -141,10 +205,11 @@ namespace Auto_Battler.Application
             DisplayResults(combatLoop);
         }
 
-        private void InitializeTeam()
+        private void PrepareHero()
         {
             InitializeHeroTeam();
-            InitializeMonsterTeam();
+            InitializeSkills();
+            AssignHeroSkills();
         }
 
         private void InitializeHeroTeam()
@@ -174,11 +239,15 @@ namespace Auto_Battler.Application
             _heal = new Heal();
         }
 
-        private void AssignSkills()
+        private void AssignHeroSkills()
         {
             _hero.AddSkill(_basicAttack);
             _hero.AddSkill(_powerStrike);
             _hero.AddSkill(_heal);
+        }
+
+        private void AssignMonsterSkills()
+        {
             _monster1.AddSkill(_basicAttack);
             _monster1.AddSkill(_powerStrike);
             _monster2.AddSkill(_basicAttack);

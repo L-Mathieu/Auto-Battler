@@ -192,4 +192,10 @@ using Microsoft.Data.Sqlite;
 //}
 
 //----------------------------------------------------------------------
+IHeroRepository repository =
+    new SqliteHeroRepository();
+
+GameService game =
+    new GameService(repository);
+game.MainMenu();
 
