@@ -186,6 +186,7 @@ namespace Auto_Battler.Application
                 index = number - 1;
 
                 _hero = _heroMapper.ToHero(_heroList[index]);
+                _heroSaveId = _heroList[index].Id;
             }
 
             PrepareHero();
@@ -214,8 +215,6 @@ namespace Auto_Battler.Application
 
         private void InitializeHeroTeam()
         {
-            _hero = new("Hero", 100, 10, 3, 40);
-
             _teamHeroes = new("Heroes");
 
             _teamHeroes.AddMember(_hero);
@@ -294,9 +293,11 @@ namespace Auto_Battler.Application
 
         private void UpdateHero()
         {
+            Console.WriteLine($"hero : {_hero.Name}");
             HeroSave heroSave = _heroMapper.ToHeroSave(_hero);
 
             heroSave.Id = _heroSaveId;
+            Console.WriteLine($"hero id : {_heroSaveId}");
 
             _heroRepository.Update(heroSave);
         }
