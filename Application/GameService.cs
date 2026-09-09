@@ -125,7 +125,7 @@ namespace Auto_Battler.Application
                 }
             }
 
-            _hero = new(heroName, 100, 15, 5, 40);
+            _hero = new(heroName, HeroClass.Warrior, 100, 15, 5, 40);
 
             SaveHero();
 
